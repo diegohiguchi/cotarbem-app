@@ -1,0 +1,24 @@
+<ion-view view-title="Remover Categoria" cache-view="false" hide-back-button="true" ng-controller="categoria.remover as vm">
+    <ion-header-bar>
+
+        <h1 class="title">Categoria</h1>
+        <div class="buttons">
+            <button class="button button-assertive" ng-click="vm.closeModal()">Fechar</button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <form>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Nome</span>
+                    <span class="input-label">{{categoria.nome}}</span>
+                </label>
+                <label class="item">
+                    <button class="button button-block button-assertive" ng-click="vm.remover(categoria._id)"
+                           type="submit" type="submit">Remover
+                    </button>
+                </label>
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

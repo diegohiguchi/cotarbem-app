@@ -1,0 +1,40 @@
+<ion-view cache-view="false" hide-back-button="false" ng-controller="usuario.detalhar as vm">
+    <ion-nav-title>
+        Meus Dados
+    </ion-nav-title>
+    <ion-content>
+        <div class="center cotacao_view meus_dados">
+			<div class="head_info">
+				<div class="imagem">
+					<img ng-show="!!vm.usuario.urlImagem" class="minha-conta" ng-src="{{vm.usuario.urlImagem}}"/>
+                    <img ng-show="!vm.usuario.urlImagem" class="minha-conta" src="img/placehold_image.png"/>
+				</div>
+				<p class="title cor_default">{{vm.usuario.nome}}</p>
+
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<ul class="list_default normal meus_dados">
+			<li>
+				<a href="javascript:" ng-click="vm.editarUsuario()">
+					<i class="left fa fa-user"></i>
+					<p class="left">Meus dados</p>
+					<span class="right"><i class="fa fa-chevron-right"></i></span>
+					<div class="clear"></div>
+				</a>
+			</li>
+			<li>
+                <ion-toggle ng-model="vm.device.ativo" ng-change="vm.alterarNotificacao(vm.device)" toggle-class="toggle-calm"><i class="left fa fa-bell"></i>Notificações</ion-toggle>
+			</li>
+			<li>
+				<a href="javascript:" ng-click="vm.logout()">
+					<i class="left fa fa-sign-out"></i>
+					<p class="left">Sair</p>
+					<div class="clear"></div>
+				</a>
+			</li>
+		</ul>
+    </ion-content>
+</ion-view>

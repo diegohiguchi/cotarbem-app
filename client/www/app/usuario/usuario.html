@@ -1,0 +1,17 @@
+<ion-view view-title="Usu&aacute;rios" cache-view="false" hide-back-button="true" ng-controller="usuario as vm">
+    <ion-nav-buttons side="right">
+        <div>
+            <a class="button button-icon button-clear ion-android-add" ng-click="vm.adicionarUsuario()" title="Adicionar Usuário">
+            </a>
+        </div>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="item row" ng-repeat="usuario in vm.usuarios track by $index">
+            <div class="col col-75">
+                {{usuario.nome}}
+            </div>
+            <div class="col"><a class="ion-edit" href="javascript:" ng-click="vm.usuarioSelecionado(usuario)"></a></div>
+            <div class="col"><a class="ion-trash-a" href="javascript:" ng-click="vm.removerUsuario(usuario)"></a></div>
+        </div>
+    </ion-content>
+</ion-view>

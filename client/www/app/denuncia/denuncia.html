@@ -1,0 +1,63 @@
+<ion-view view-title="Denúncia" cache-view="false" hide-back-button="true" ng-controller="denuncia as vm">
+    <ion-content>
+        <div class="form_padrao">
+            <form name="formRegistro" novalidate ng-submit="formRegistro.$valid && vm.registrar(vm.usuario)">
+                <div class="clear">
+                    <select name="cotacao" ng-model="vm.denuncia.cotacaoId" ng-options="tipoUsuario.nome for tipoUsuario in vm.tipoUsuario"
+                    required>
+                        <option value="">Cotação *</option>
+                    </select>
+                </div>
+
+                <div class="clear">
+                    <textarea name="descricao" required maxlength="300" ng-model="vm.denuncia.descricao" placeholder="Descrição detalhada *"></textarea>
+                </div>
+
+                <div class="clear" ng-show="formRegistro.$submitted">
+                    <div ng-messages="formRegistro.$error">
+                        <div ng-messages-include="error-list.html"></div>
+                    </div>
+                </div>
+
+                <hr class="space">
+
+                <div class="clear">
+                    <input class="btn_padrao" type="submit" value="Enviar" />
+                </div>
+
+                <script id="error-list.html" type="text/ng-template">
+                    <div ng-message="required">
+                        <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe os campos com asterisco (*)
+                    </span>
+                    </div>
+                    <div ng-message="minlength">
+                        <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe senha com pelo menos 3 caracteres
+                    </span>
+                    </div>
+                    <div ng-message="maxlength">
+                        <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Tamanho máximo no campo nome é de 50 caracteres
+                    </span>
+                    </div>
+                    <div ng-message when="cnpj">
+                        <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    CNPJ inválido
+                    </span>
+                    </div>
+                    <div ng-message when="email">
+                        <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i> 
+                    E-mail inválido
+                    </span>
+                    </div>
+                </script>
+            </form>
+        </div>
+    </ion-content>
+</ion-view>

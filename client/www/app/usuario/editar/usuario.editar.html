@@ -1,0 +1,226 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="usuario.editar as vm">
+    <ion-nav-title>
+        Meus Dados - Editar
+    </ion-nav-title>
+    <ion-nav-buttons side="left">
+        <a class="button icon-left ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-content>
+            <div class="form_padrao">
+                <div class="center header_camera">
+                    <a class="icon_cadastro" style="background-size: cover; background-image: url('{{vm.usuario.urlImagem}}');" ng-href="javascript:"
+                    ng-click="vm.showPopup()">
+                        <i ng-hide="!!vm.usuario.urlImagem" class="fa fa-camera"></i>
+                    </a>
+                    <!--<button ng-show="!vm.usuario.imagemSrc" type="button" class="button icon-left ion-android-delete button-clear button-dark"
+            ng-click="vm.retirarImagem()" title="Remover">
+                Excluir imagem
+            </button>-->
+                    <br>
+
+                    <hr class="space">
+
+                    <!--<button ng-show="!!vm.usuario.imagemSrc" type="button" class="button icon-left ion-android-delete button-clear button-dark"
+            ng-click="vm.retirarImagem()" title="Remover">
+                Excluir imagem
+            </button>-->
+                    <!--<button class="ion-android-delete"> Excluir imagem</button>-->
+                    <!--<h2>Criar Conta Gratuita</h2>-->
+                    <img class="logo_header" src="img/icon_header.png" />
+                </div>
+
+                <form name="formEditar" novalidate ng-submit="formEditar.$valid && vm.editarUsuario(vm.usuario)">
+                    <!--<div class="clear">
+                        <select name="tipoUsuario" ng-model="vm.usuario.tipoUsuarioId" ng-options="tipoUsuario._id as tipoUsuario.nome for tipoUsuario in vm.tipoUsuario"
+                        required>
+                            <option value="">Tipo de usuário *</option>
+                        </select>
+                    </div>-->
+                    <div class="clear">
+                        <input type="text" maxlength="50" name="nome" placeholder="Nome *" ng-model="vm.usuario.nome" required/>
+                    </div>
+                    <!--<div class="clear">
+                        <input type="text" name="cnpj" placeholder="CNPJ *" ng-model="vm.usuario.cnpj" ui-br-cnpj-mask required/>
+                    </div>-->
+                    <div class="clear">
+                        <input type="email" name="email" placeholder="E-mail *" ng-model="vm.usuario.email" required/>
+                    </div>
+                    <div class="clear">
+                        <input type="password" name="senha" placeholder="Nova Senha" ng-model="vm.usuario.password" />
+                    </div>
+                    <div class="clear">
+                        <input type="password" data-password-verify="vm.usuario.password" name="confirmaSenha" placeholder="Confirme sua Nova Senha"
+                        ng-model="vm.usuario.confirmPassword" />
+                    </div>
+                    <div class="clear">
+                        <input type="text" name="telefone" placeholder="Telefone *" ng-model="vm.usuario.telefone" ui-br-phone-number required>
+                    </div>
+                    <div class="clear">
+                        <input type="text" name="cep" ng-blur="vm.buscarCep(vm.usuario.cep)" placeholder="CEP *" my-enter="vm.buscarCep(vm.usuario.cep)"
+                        ng-model="vm.usuario.cep" ui-br-cep-mask required>
+                    </div>
+                    <div class="clear">
+                        <input type="text" name="numero" placeholder="Número *" ng-model="vm.usuario.numero" required>
+                    </div>
+
+                    <p class="desc_cep" ng-show="!(vm.usuario.endereco | isEmpty)">
+                        <strong>Logradouro:</strong> {{vm.usuario.endereco.logradouro}}
+                        <br />
+                        <strong>Bairro:</strong> {{vm.usuario.endereco.bairro}}
+                        <br />
+                        <strong>Cidade:</strong> {{vm.usuario.endereco.cidade}} - {{vm.usuario.endereco.estado}}
+                        <br />
+                    </p>
+
+                    <div class="clear" ng-show="!!vm.mensagem">
+                        <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            {{vm.mensagem}}
+                        </span>
+                    </div>
+
+                    <div class="clear" ng-show="formEditar.$submitted">
+                        <div ng-messages="formEditar.$error">
+                            <div ng-messages-include="error-list.html"></div>
+                        </div>
+                    </div>
+
+                    <div ng-show="!!vm.usuario.password || !!vm.usuario.confirmPassword">
+                        <span class="alert_error" ng-show="formEditar.confirmaSenha.$error.passwordVerify">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            As senhas estão diferentes
+                        </span>
+                    </div>
+
+                    <hr class="space">
+
+                    <div class="clear">
+                        <!--<input
+                ng-class="!!vm.usuario.email && !!vm.usuario.nome && !!vm.usuario.cnpj && !!vm.usuario.password && !!vm.usuario.tipoUsuario ? 'btn_padrao' : 'btn_padrao_disabled'"
+                 type="submit" value="Criar Conta" ng-disabled="!vm.usuario.email || !vm.usu7ario.email || !vm.usuario.nome || !vm.usuario.cnpj || !vm.usuario.password || !vm.usuario.tipoUsuario"/>-->
+                        <input class="btn_padrao" type="submit" value="Salvar" />
+                    </div>
+
+                    <script id="error-list.html" type="text/ng-template">
+                        <div ng-message="required">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe os campos com asterisco (*)
+                    </span>
+                        </div>
+                        <div ng-message="minlength">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe senha com pelo menos 3 caracteres
+                    </span>
+                        </div>
+                        <div ng-message="maxlength">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Tamanho máximo no campo nome é de 50 caracteres
+                    </span>
+                        </div>
+                        <div ng-message when="cnpj">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    CNPJ inválido
+                    </span>
+                        </div>
+                        <div ng-message when="email">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> E-mail inválido
+                            </span>
+                        </div>
+                    </script>
+                </form>
+            </div>
+        </ion-content>
+    </ion-content>
+</ion-view>
+
+<!--<ion-view view-title="Editar Usuário" cache-view="false" hide-back-button="true" ng-controller="usuario.editar as vm">
+    <ion-content>
+        <form name="formUsuarioEditar" novalidate ng-submit="formUsuarioEditar.$valid && vm.salvarDados(vm.usuario)">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Nome*</span>
+                    <input type="text" name="nome" placeholder="Nome" ng-model="vm.usuario.nome" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">E-mail*</span>
+                    <input type="email" name="email" placeholder="E-mail" ng-model="vm.usuario.email" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Nova Senha*</span>
+                    <input type="password" ng-model="vm.usuario.password" ng-init="vm.usuario.password = ''" minlength="3" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">CNPJ</span>
+                    <input type="text" name="cnpj" placeholder="CNPJ"
+                           ng-model="vm.usuario.cnpj" ui-br-cnpj-mask>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Telefone Fixo</span>
+                    <input type="text" name="telefoneFixo" placeholder="Telefone Fixo"
+                           ng-model="vm.usuario.telefoneFixo"
+                           ui-br-phone-number>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Telefone Celular</span>
+                    <input type="text" name="telefoneCelular" placeholder="Telefone Celular"
+                           ng-model="vm.usuario.telefoneCelular"
+                           ui-br-phone-number>
+                </label>
+                <ion-checkbox name="cliente" ng-true-value="'Cliente'" ng-model="vm.usuario.tipoUsuarioNome">Cliente
+                </ion-checkbox>
+                <ion-checkbox name="fornecedor" ng-true-value="'Fornecedor'" ng-model="vm.usuario.tipoUsuarioNome">
+                    Fornecedor
+                </ion-checkbox>
+
+                <label class="item" ng-show="vm.localizacoes">
+                    <p>Endereços</p>
+                    <span ng-repeat="localizacao in vm.localizacoes">
+                        <p>{{localizacao.endereco}}</p>
+                    </span>
+                </label>
+
+                <div class="item">
+                    <a class="button button-clear button-dark icon-left ion-android-add"
+                       ng-click="vm.adicionarEndereco()">Adicionar Endereço</a>
+                </div>
+                <label class="item item-input">
+                    <div class="error-container" ng-show="formUsuarioEditar.$submitted">
+                        <div ng-messages="formUsuarioEditar.$error">
+                            <div ng-messages-include="error-list.html"></div>
+                        </div>
+                    </div>
+                </label>
+
+                <div class="item">
+                    <button class="button button-block button-assertive" type="submit"
+                            ng-disabled="!vm.usuario.nome || !vm.usuario.email || !vm.usuario.tipoUsuarioNome
+                            || !vm.usuario.password">Salvar</button>
+                </div>
+            </div>
+            <script id="error-list.html" type="text/ng-template">
+                <div class="list" ng-message="required">
+                    <i class="ion-information-circled"></i>
+                    Informe os campos com asterisco (*)
+                </div>
+                <div class="error" ng-message="minlength">
+                    <i class="ion-information-circled"></i>
+                    Quantidade mínima de caracteres da senha é 3
+                </div>
+                <div class="error" ng-message="maxlength">
+                    <i class="ion-information-circled"></i>
+                    Maximum length of this field is 20 characters!
+                </div>
+                <div class="error" ng-message when="cnpj">
+                    <i class="ion-information-circled"></i>
+                    CNPJ inválido
+                </div>
+            </script>
+        </form>
+    </ion-content>
+</ion-view>-->

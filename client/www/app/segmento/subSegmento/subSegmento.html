@@ -1,0 +1,43 @@
+<ion-view view-title="Subsegmentos" cache-view="false" hide-back-button="true" ng-controller="subsegmento as vm">
+    <ion-nav-buttons side="right" ng-show="vm.usuario.tipoUsuario.nome == 'Administrador'">
+        <a class="button button-icon button-clear ion-android-add" ng-href="#/app/subsegmento/adicionar">
+        </a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left" ng-show="vm.usuario.tipoUsuario.nome != 'Administrador'">
+        <a class="button icon-left ion-chevron-left button-clear" ng-href="#" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right" ng-show="vm.usuario.tipoUsuario.nome != 'Administrador'">
+        <a class="" ng-href="javascript:" ng-click="vm.voltarPagina()">
+            <span class="notify">
+                        OK
+            </span>
+        </a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div ng-show="vm.usuario.tipoUsuario.nome == 'Administrador'" class="item row" ng-repeat="subsegmento in vm.subsegmentos">
+            <div class="col col-75">{{subsegmento.nome}}</div>
+            <div class="col">
+                <a class="ion-edit" ng-href="#/app/subsegmento/editar/{{subsegmento._id}}"></a>
+            </div>
+            <!--<div class="col"><a class="ion-trash-a" href="javascript:" ng-click="vm.openModal(subsegmento)"></a></div>-->
+            <div class="col">
+                <a class="ion-trash-a" href="javascript:" ng-click="vm.removerCategoria(subsegmento)"></a>
+            </div>
+        </div>
+        <ul class="list list_subsegmento" ng-show="vm.usuario.tipoUsuario.nome == 'Fornecedor'">
+            <li ng-repeat="subsegmento in vm.subsegmentos | orderBy: 'nome'" ng-click="vm.selecionado(subsegmento)">
+                <!-- <li class="item item-checkbox" ng-repeat="subsegmento in vm.subsegmentos" ng-click="vm.selecionado(subsegmento)"
+                     ng-class="{ active: subsegmento.subsegmentoSelecionada }">-->
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="subsegmento.subsegmentoSelecionada">
+                </label>
+
+                <span class="subsegmento-nome">{{ subsegmento.nome }}</span>
+            </li>
+            <!-- <div class="col">
+                 <i ng-show="subsegmento.subsegmentoSelecionada" class="ion-checkmark-round"></i>
+                 <i ng-show="!subsegmento.subsegmentoSelecionada" class="ion-plus-round"></i>
+             </div>-->
+        </ul>
+    </ion-content>
+</ion-view>

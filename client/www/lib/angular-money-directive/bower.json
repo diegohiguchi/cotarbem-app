@@ -1,0 +1,9 @@
+{
+  "name": "angular-money-directive",
+  "main": "dist/angular-money-directive.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}

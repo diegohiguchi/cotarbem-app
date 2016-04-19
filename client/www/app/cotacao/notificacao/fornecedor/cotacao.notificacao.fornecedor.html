@@ -1,0 +1,83 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="cotacao.notificacao.fornecedor as vm">
+     <ion-nav-title>
+        Atividades
+    </ion-nav-title>
+    <ion-nav-buttons side="left">
+        <a ng-href="javascript:" class="button icon-left ion-chevron-left button-clear" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="center">
+			<ul class="list_default list_notify normal">
+				<li ng-repeat="dados in vm.mensagens | orderBy:'-data' track by $index">
+					<a href="#{{dados.url}}">
+						<span class="clock">
+							<i class="{{dados.tipo | tipoNotificacao}}"></i>
+						</span>
+						<p class="left">
+							<span class="type">Aviso</span>
+							{{dados.mensagem}}
+							<span class="ago" am-time-ago="dados.data"></span>
+						</p>
+						<div class="clear"></div>
+					</a>
+				</li>
+				<!--<li class="stripes">
+					<span class="clock">
+						<i class="fa left fa-clock-o"></i>
+					</span>
+					<p class="left">
+						<span class="type">Mensagem</span>
+						Eu quero tic, tic, tic, tic tac
+						<span class="ago">há 2 dias</span>
+					</p>
+					<div class="clear"></div>
+				</li>
+				<li>
+					<span class="clock">
+						<i class="fa left fa-clock-o"></i>
+					</span>
+					<p class="left">
+						<span class="type">Aviso</span>
+						Sua cotação de pães está pronta
+						<span class="ago">há 8 dias</span>
+					</p>
+					<div class="clear"></div>
+				</li>
+				<li class="stripes">
+					<span class="clock">
+						<i class="fa left fa-clock-o"></i>
+					</span>
+					<p class="left">
+						<span class="type">Aviso</span>
+						Sua cotação de cuecas está pronta
+						<span class="ago">há 8 dias</span>
+					</p>
+					<div class="clear"></div>
+				</li>
+				<li>
+					<span class="clock">
+						<i class="fa left fa-clock-o"></i>
+					</span>
+					<p class="left">
+						<span class="type">Mensagem</span>
+						Comper respondeu sua mensagem
+						<span class="ago">há 2 dias</span>
+					</p>
+					<div class="clear"></div>
+				</li>
+				<li class="stripes">
+					<span class="clock">
+						<i class="fa left fa-clock-o"></i>
+					</span>
+					<p class="left">
+						<span class="type">Aviso</span>
+						Sua cotação de pães está pronta
+						<span class="ago">há 8 dias</span>
+					</p>
+					<div class="clear"></div>
+				</li>-->
+			</ul>
+
+		</div>
+    </ion-content>
+</ion-view>

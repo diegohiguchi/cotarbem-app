@@ -1,0 +1,89 @@
+<ion-view view-title="Adicionar Usuário" cache-view="false" hide-back-button="true"
+          ng-controller="usuario.adicionar as vm">
+    <ion-nav-buttons side="left">
+        <a class="button icon-left ion-chevron-left button-clear" ng-click="vm.voltarPagina()">Voltar</a>
+    </ion-nav-buttons>
+    <ion-content>
+        <form name="formUsuarioAdicionar" novalidate
+              ng-submit="formUsuarioAdicionar.$valid && vm.salvarDados(vm.usuario)">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Nome*</span>
+                    <input type="text" name="nome" placeholder="Nome" ng-model="vm.usuario.nome" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">E-mail*</span>
+                    <input type="email" name="email" placeholder="E-mail" ng-model="vm.usuario.email" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Senha*</span>
+                    <input type="password" ng-model="vm.usuario.password" minlength="3" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">CNPJ</span>
+                    <input type="text" name="cnpj" placeholder="CNPJ"
+                           ng-model="vm.usuario.cnpj" ui-br-cnpj-mask>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Telefone Fixo</span>
+                    <input type="text" name="telefoneFixo" placeholder="Telefone Fixo"
+                           ng-model="vm.usuario.telefoneFixo"
+                           ui-br-phone-number>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Telefone Celular</span>
+                    <input type="text" name="telefoneCelular" placeholder="Telefone Celular"
+                           ng-model="vm.usuario.telefoneCelular"
+                           ui-br-phone-number>
+                </label>
+                <ion-checkbox name="cliente" ng-true-value="'Cliente'" ng-model="vm.usuario.tipoUsuarioNome">Cliente*
+                </ion-checkbox>
+                <ion-checkbox name="fornecedor" ng-true-value="'Fornecedor'" ng-model="vm.usuario.tipoUsuarioNome">
+                    Fornecedor*
+                </ion-checkbox>
+                <label class="item" ng-show="vm.localizacoes.length > 0">
+                    <p>Endereços</p>
+                    <span ng-repeat="localizacao in vm.localizacoes">
+                        <p>{{localizacao.endereco}}</p>
+                    </span>
+                </label>
+
+                <a class="button button-clear button-dark icon-left ion-android-add"
+                   ng-click="vm.adicionarEndereco()">Adicionar Endereço</a>
+
+                <label class="item item-input" ng-show="formUsuarioAdicionar.$submitted">
+                    <div class="error-container" >
+                        <div ng-messages="formUsuarioAdicionar.$error">
+                            <div ng-messages-include="error-list.html"></div>
+                        </div>
+                    </div>
+                </label>
+
+                <div class="item">
+                    <button class="button button-block button-assertive" type="submit"
+                            ng-disabled="!vm.usuario.nome || !vm.usuario.email || !vm.usuario.tipoUsuarioNome
+                            || !vm.usuario.password">Salvar
+                    </button>
+                </div>
+            </div>
+            <script id="error-list.html" type="text/ng-template">
+                <div class="list" ng-message="required">
+                    <i class="ion-information-circled"></i>
+                    Informe os campos com asterisco (*)
+                </div>
+                <div class="error" ng-message="minlength">
+                    <i class="ion-information-circled"></i>
+                    Quantidade mínima é 3
+                </div>
+                <div class="error" ng-message="maxlength">
+                    <i class="ion-information-circled"></i>
+                    Maximum length of this field is 20 characters!
+                </div>
+                <div class="error" ng-message when="cnpj">
+                    <i class="ion-information-circled"></i>
+                    CNPJ inválido
+                </div>
+            </script>
+        </form>
+    </ion-content>
+</ion-view>

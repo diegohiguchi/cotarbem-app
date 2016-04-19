@@ -1,0 +1,163 @@
+<!--<ion-modal-view cache-view="false" ng-controller="login as vm">-->
+<!--<div class="tabs-striped tabs-background-assertive tabs-color-light">
+    <div class="tabs">
+        <a class="tab-item" ng-class="{active : vm.viewLogin}" href="javascript:" ng-click="vm.switchTab('login')">
+            <i class="icon ion-locked"></i> Login
+        </a>
+        <a class="tab-item" ng-class="{active : !vm.viewLogin}" href="javascript:"
+           ng-click="vm.switchTab('register')">
+            <i class="icon ion-person-add"></i> Register
+        </a>
+    </div>
+</div>-->
+<!--<ion-pane ng-show="vm.viewLogin">-->
+<ion-view title="Login" cache-view="false" ng-controller="login as vm">
+    <span ng-show="!vm.viewLogin && !vm.viewRegistro">
+        <ion-content scroll="false">
+            <ion-slide-box padding="true" class="">
+                <ion-slide>
+                    <img src="img/SPLASH.jpg" class="home"
+                         style="width: 100%; height: 100%;margin:auto;display:block">
+                </ion-slide>
+                <ion-slide>
+                    <img src="img/splash2.jpg" style="width: 100%; height: 100%;">
+                </ion-slide>
+            </ion-slide-box>
+        </ion-content>
+        <div class="home-spacer"></div>
+        <div class="home-button">
+            <button type="button" class="button button-small button-light button-icon  icon-left ion-log-in btn_default"
+                    ng-click="vm.viewLogin = !vm.viewLogin">Entrar
+            </button>
+
+            <span class="space-button"></span>
+
+            <button type="button" class="button button-small button-stable button-icon icon-left ion-android-checkmark-circle btn_default"
+            ng-click="vm.viewRegistro = !vm.viewRegistro">
+                Cadastrar
+            </button>
+        </div>
+    </span>
+    <div ng-show="vm.viewLogin" ng-include="'app/usuario/autenticacao/formulario/formLogin.html'"></div>
+    <div ng-show="vm.viewRegistro" ng-include="'app/usuario/autenticacao/formulario/formCadastro.html'"></div>
+    <!--<div class="spacer" style="width: 100%; height: 80%;"></div>
+    <div class="button-bar">
+        <button class="button button-light button-icon  icon-left ion-log-in btn_default">Entrar</button>
+        &nbsp;&nbsp;&nbsp;
+        <button class="button button-stable button-icon  icon-left ion-android-checkmark-circle btn_default">
+            Cadastrar
+        </button>
+    </div>-->
+    <!--</ion-content>-->
+    <script id="formEsqueceuSenha.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-content>
+                <div class="header">
+                    <a class="button ion-chevron-left btn_back" ng-click="vm.fecharModalEsqueceuSenha()"></a>
+                    <h1>Esqueceu Senha?</h1>
+                </div>
+
+                <div class="form_padrao">
+
+                    <span>Informe seu endereço de e-mail e você receberá uma nova senha.</span>
+                
+                <hr class="space">
+                
+                    <form name="formEsqueceuSenha" ng-submit="vm.enviarSenha(vm.email)">
+                        <div class="clear">
+                            <input class="email" type="email" placeholder="Endereço de E-mail" ng-model="vm.email" />
+                        </div>
+                        <div class="clear">
+                            <input ng-class="!!vm.email ? 'btn_padrao' : 'btn_padrao_disabled'" type="submit" value="Enviar"
+                            ng-disabled="!vm.email" />
+                        </div>
+                    </form>
+                </div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+</ion-view>
+
+
+<!--</ion-pane>-->
+<!-- login pane -->
+<!-- <ion-pane ng-show="vm.viewLogin">
+     <ion-header-bar>
+         <h1 class="title">Login</h1>
+         &lt;!&ndash;<div class="buttons">&ndash;&gt;
+         &lt;!&ndash;<button class="button button-assertive" ng-click="hide()">Close</button>&ndash;&gt;
+         &lt;!&ndash;</div>&ndash;&gt;
+     </ion-header-bar>
+     <ion-content>
+            <form>
+             <div class="list">
+                 <label class="item item-input">
+                     <span class="input-label">Email</span>
+                    <input type="email" ng-model="vm.usuario.email">
+                    </label>
+                    <label class="item item-input">
+                        <span class="input-label">Senha</span>
+                        <input type="password" ng-model="vm.usuario.password">
+                    </label>
+                    <label class="item">
+                        <button class="button button-block button-assertive" ng-click="vm.login(vm.usuario)" ng-disabled="!vm.usuario.email || !vm.usuario.password"
+                        type="submit">Entrar
+                        </button>
+                    </label>
+                    &lt;!&ndash;
+                    <label class="item item-input">
+                        <button class="button button-block button-dark" ng-click="vm.identifyUser()">
+                            Identify a user
+                        </button>
+                    </label>
+                    <label class="item item-input">
+                        <button class="button button-block button-positive" ng-if="vm.identified" ng-click="vm.pushRegister()">
+                            Register for Push
+                        </button>
+                    </label>&ndash;&gt;
+                </div>
+
+                </form>
+
+            </ion-content>
+            </ion-pane>-->
+            <!-- register pane -->
+            <!--<ion-pane ng-hide="vm.viewLogin">
+    <ion-header-bar>
+        <h1 class="title">Registrar</h1>
+    </ion-header-bar>
+    <ion-content>
+        <form>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Nome</span>
+                    <input type="text" ng-model="vm.usuario.nome">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Email</span>
+                    <input type="text" ng-model="vm.usuario.email">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Senha</span>
+                    <input type="password" ng-model="vm.usuario.password">
+                </label>
+                <ion-checkbox name="cliente" ng-true-value="'Cliente'" ng-model="vm.usuario.tipoUsuario">Cliente
+                </ion-checkbox>
+                <ion-checkbox name="fornecedor" ng-true-value="'Fornecedor'" ng-model="vm.usuario.tipoUsuario">
+                    Fornecedor
+                </ion-checkbox>
+                &lt;!&ndash;<label class="item">&ndash;&gt;
+                &lt;!&ndash;<input type="file"/>&ndash;&gt;
+                &lt;!&ndash;</label>&ndash;&gt;
+                <label class="item">
+                    <button class="button button-block button-assertive" ng-click="vm.registrar(vm.usuario)"
+                            ng-disabled="!vm.usuario.email || !vm.usuario.password || !vm.usuario.tipoUsuario"
+                            type="submit" type="submit">Registrar
+                    </button>
+                </label>
+            </div>
+        </form>
+    </ion-content>
+</ion-pane>-->
+            <!--</ion-modal-view>-->

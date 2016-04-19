@@ -1,0 +1,61 @@
+<div class="header">
+    <a class="button ion-chevron-left btn_back" ng-click="vm.viewLogin = !vm.viewLogin"></a>
+    <h1>Entrar no Cotar Bem</h1>
+</div>
+
+<hr class="space">
+
+<div class="center">
+    <img width="140" src="img/logo_entrar.png" alt="">
+</div>
+
+<p class="center padding">Use o endereço de e-mail e a senha preenchidos quando você criou sua conta</p>
+
+<div class="form_padrao">
+    <form name="formLogin" novalidate="" ng-submit="formLogin.$valid && vm.login(vm.usuario)">
+        <div class="clear">
+            <input class="email" name="email" type="email" placeholder="Endereço de E-mail *" ng-model="vm.usuario.email" required/>
+        </div>
+        <div class="clear">
+            <input class="senha" minlength="3" name="senha" type="password" placeholder="Senha *" ng-model="vm.usuario.password" required/>
+        </div>
+        
+        <div class="clear" ng-show="formLogin.$submitted">
+            <div ng-messages="formLogin.$error">
+                <div ng-messages-include="error-list.html"></div>
+            </div>
+        </div>
+
+        <hr class="space">
+        
+        <div class="clear">
+            <!--<input ng-class="!!vm.usuario.email && !!vm.usuario.password ? 'btn_padrao' : 'btn_padrao_disabled'" type="submit" value="Entrar"
+            ng-disabled="!vm.usuario.email || !vm.usuario.password" />-->
+            <input class="btn_padrao" type="submit" value="Entrar" />
+        </div>
+        <div class="clear">
+            <a class="esqueceu_senha" href="javascript:" ng-click="vm.abrirModalEsqueceuSenha()">Esqueceu sua senha?<a>
+        </div>
+        
+        <script id="error-list.html" type="text/ng-template">
+                <div ng-message="required">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe os campos com asterisco (*)
+                    </span>
+                </div>
+                <div ng-message="minlength">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe senha com pelo menos 3 caracteres
+                    </span>
+                </div>
+                <div ng-message when="email">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    E-mail inválido
+                    </span>
+                </div>
+            </script>
+    </form>
+</div>

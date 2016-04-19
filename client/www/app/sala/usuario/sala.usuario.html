@@ -1,0 +1,102 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="sala.usuario as vm">
+    <ion-nav-title>
+        Cotação <span ng-show="vm.sala.ativo" my-current-time="vm.sala"></span>
+    </ion-nav-title>
+ <!--   <ion-content>
+    <ion-list>
+        <div ng-repeat="message in vm.messages track by $index" class="row responsive-sm">
+            <ion-item class="col-50">
+                <span class="username">{{message.username}}</span>
+                <span class="message">{{message.message}}</span>
+                <span class="message">{{message.horario}}</span>
+            </ion-item>
+        </div>
+    </ion-list>
+
+    </ion-content>
+    <div class="bar bar-footer">
+        <input class="col col-80" type="text" class="input-label" id="chatInput" placeholder="Digite aqui..."
+               ng-model="vm.mensagem">
+
+        <button type="submit" ng-disabled="vm.sala.ativo" class="button button-small"
+                ng-click="vm.enviarMensagem(vm.mensagem)">
+            <i class="ion-paper-airplane"></i> Enviar
+        </button>
+
+    </div>-->
+
+    <ion-content has-bouncing="true" class="has-header has-footer"
+                 delegate-handle="userMessageScroll">
+
+        <div ng-repeat="message in vm.messages" class="message-wrapper"
+             on-hold="onMessageHold($event, $index, message)">
+
+            <div ng-if="vm.usuario.usuarioId !== message.usuarioId">
+
+                <!--         <img ng-click="viewProfile(message)" class="profile-pic left"
+                              ng-src="{{toUser.pic}}" onerror="onProfilePicError(this)"/>-->
+
+                <img ng-click="" class="profile-pic left"
+                     ng-src="https://pbs.twimg.com/profile_images/3212075639/b408d7db5a7ab6792b131671ba6c235a_bigger.png"
+                     onerror="onProfilePicError(this)"/>
+
+                <div class="chat-bubble left">
+
+                    <div class="message" ng-bind-html="message.message | nl2br">
+                    </div>
+
+                    <div class="message-detail">
+                               <span ng-click=""
+                                     class="bold">{{message.username}}{{message.usuarioNome}}</span>
+                        <span ng-show="message.horario">•</span>
+                        <span am-time-ago="message.horario"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div ng-if="vm.usuario.usuarioId === message.usuarioId">
+
+                <!-- <img ng-click="viewProfile(message)" class="profile-pic right"
+                      ng-src="{{user.pic}}" onerror="onProfilePicError(this)"/>-->
+
+                <img ng-click="" class="profile-pic right"
+                     ng-src="https://pbs.twimg.com/profile_images/3212075639/b408d7db5a7ab6792b131671ba6c235a_bigger.png"
+                     onerror="onProfilePicError(this)"/>
+
+                <div class="chat-bubble right">
+
+                    <div class="message" ng-bind-html="message.message | nl2br">
+                    </div>
+
+                     <div class="message-detail">
+                               <span ng-click=""
+                                     class="bold">{{vm.usuario.usuarioNome}}</span>
+                         <span ng-show="message.horario">•</span>
+                         <span am-time-ago="message.horario"></span>
+                     </div>
+
+                </div>
+
+            </div>
+
+            <div class="cf"></div>
+
+        </div>
+    </ion-content>
+
+    <form name="sendMessageForm" ng-submit="vm.enviarMensagem(vm.mensagem)" novalidate>
+        <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
+            <label class="item-input-wrapper">
+                <textarea ng-model="vm.mensagem" value="" placeholder="Digite aqui..." required minlength="1"
+                          maxlength="1500" msd-elastic></textarea>
+            </label>
+
+            <div class="footer-btn-wrap">
+                <button class="button button-icon icon ion-android-send footer-btn" type="submit"
+                        ng-disabled="!vm.mensagem || vm.mensagem === ''">
+                </button>
+            </div>
+        </ion-footer-bar>
+    </form>
+</ion-view>

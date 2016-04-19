@@ -1,0 +1,177 @@
+<ion-view view-title="COTAR BEM" cache-view="false" hide-back-button="true" ng-controller="cotacao.dashboard.cliente as vm">
+    <ion-nav-buttons side="right">
+        <a class="" ng-href="#/app/cotacao/notificacao/cliente">
+            <span class="notify">
+				<i class="fa fa-bell"></i>
+				<span class="number" notificacao="notificacao">{{vm.notificacao.length}}</span>
+            </span>
+        </a>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <p></p>
+        <!--{{vm.messages}}
+        <form action="" ng-submit="vm.enviarMensagem(vm.mensagem)">
+            <input type="text" ng-model="vm.mensagem">
+            <button>Enviar Mensagem</button>
+            
+        </form>-->
+           <p></p>
+              <p></p>
+                 <p></p>
+                    <p></p>
+        <div class="center">
+            <ul class="list_category">
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Alimentos')">
+                        <span class="category">Alimentos</span>
+                        <i class="fa fa-cutlery"></i>
+                        <div ng-show="categoria.nome != 'ADICIONAR NOVA CATEGORIA'">
+                            <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Alimentos'">
+                                <div ng-show="!!solicitacao.ativo">
+                                    <span class="time" my-current-time="solicitacao"></span>
+                                    <span class="progessbar">
+							             <div id="progressBar" class="active"></div> &nbsp
+                                    </span>
+                                </div>
+                                <div ng-show="!solicitacao.ativo">
+                                    <span class="time encerrado">encerrado</span>
+                                    <span class="progessbar">&nbsp</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Automóveis')">
+                        <span class="category">Automovéis</span>
+                        <i class="fa fa-automobile"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Automóveis'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Bebidas')">
+                        <span class="category">Bebidas</span>
+                        <i class="fa fa-beer"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Bebidas'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Brinquedos')">
+                        <span class="category">Brinquedos</span>
+                        <i class="fa fa-bicycle"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Brinquedos'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Eletrônicos')">
+                        <span class="category">Eletrônicos</span>
+                        <i class="fa fa-desktop"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Eletrônicos'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Elétricos')">
+                        <span class="category">Elétricos</span>
+                        <i class="fa fa-flash"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Elétricos'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Estética')">
+                        <span class="category">Estética</span>
+                        <i class="fa fa-female"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Estética'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" ng-click="vm.categoriaSelecionada('Materiais de Construção')">
+                        <span class="category">Mat. Construção</span>
+                        <i class="fa fa-wrench"></i>
+                        <div ng-repeat="solicitacao in vm.ultimaSolicitacao" ng-if="solicitacao.categoria.nome === 'Materiais de Construção'">
+                            <div ng-show="!!solicitacao.ativo">
+                                <span class="time" my-current-time="solicitacao"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-show="!solicitacao.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+    <div ng-repeat="solicitacao in vm.solicitacoes | filter:{ativo:true} | orderBy:'-dataCadastro'">
+        <span my-current-all-time="solicitacao"></span>
+    </div>
+</ion-view>

@@ -1,0 +1,25 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="sala as vm">
+    <ion-nav-title>
+        Chat
+    </ion-nav-title>
+    <!--<ion-content delegate-handle="userMessageScroll">
+        <div class="list listbox">
+            <div class="item" ng-repeat="sala in vm.salas" ng-click="vm.salaSelecionada(sala)">
+                {{ sala.solicitacao.titulo }}
+            </div>
+        </div>
+    </ion-content>-->
+    <ion-content delegate-handle="userMessageScroll">
+        <div class="center">
+            <ul class="list_default">
+                <li ng-repeat="sala in vm.salas | orderBy:'-dataCadastro'">
+                    <a href="javascript:" ng-click="vm.salaSelecionada(sala)">
+                        <p class="left">{{ sala.solicitacao.titulo }}<span>{{sala.produto.nome}}</span></p>
+                        <span class="right"><i class="fa fa-chevron-right"></i></span>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>

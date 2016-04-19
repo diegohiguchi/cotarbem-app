@@ -1,0 +1,22 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="usuario.localizacao as vm">
+    <ion-nav-title>
+        Localização
+    </ion-nav-title>
+    <ion-nav-buttons side="left">
+        <a class="button icon-left ion-chevron-left button-clear" ng-click="vm.voltarPagina()">Voltar</a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="item item-input">
+            <input type="text" placeholder="Digite o endereço..." ng-model="chosenPlace" details="chosenPlaceDetails"
+                   googleplace/>
+            <a type="button" class="button button-small icon icon-left ion-search"
+                    ng-click="vm.obterLocalizacao(chosenPlaceDetails)"> Buscar
+            </a>
+        </div>
+        <div id="map" data-tap-disabled="true"></div>
+    </ion-content>
+    <ion-footer-bar class="bar-dark">
+        <a ng-click="vm.centerOnMe()" class="button button-icon icon ion-navigate"> Me Localizar</a>
+        <a class="button button-small" ng-click="vm.adicionarLocalizacao()" ng-disabled="!vm.botaoAdicionarLocalizacao">Salvar</a>
+    </ion-footer-bar>
+</ion-view>

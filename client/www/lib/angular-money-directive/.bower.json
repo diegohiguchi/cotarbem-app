@@ -1,0 +1,21 @@
+{
+  "name": "angular-money-directive",
+  "main": "dist/angular-money-directive.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "homepage": "https://github.com/fiestah/angular-money-directive",
+  "version": "1.2.4",
+  "_release": "1.2.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.4",
+    "commit": "dc390db6286bb48ca6b25c4bd20a3d1a4a45df69"
+  },
+  "_source": "git://github.com/fiestah/angular-money-directive.git",
+  "_target": "~1.2.4",
+  "_originalSource": "angular-money-directive",
+  "_direct": true
+}
