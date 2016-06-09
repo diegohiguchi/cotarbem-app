@@ -11,9 +11,9 @@
         var baseNgrok = 'http://008d9a58.ngrok.io/';
 
         function base() {
-            return baseProducaoApp;
+            return baseDesenvolvimentoApp;
         }
-        
+
         function baseWeb() {
             return baseProducaoWeb;
         }

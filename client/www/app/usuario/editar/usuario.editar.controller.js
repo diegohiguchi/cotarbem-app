@@ -2,7 +2,7 @@
     'use strict';
     var controllerId = 'usuario.editar';
 
-    function usuarioEditar($cordovaFile, $location, $ionicHistory, $cordovaCamera, $ionicPopup, services, autenticacao, load, $state, $timeout, $cordovaToast) {
+    function usuarioEditar(connection, $cordovaFileTransfer, $location, $ionicHistory, $cordovaCamera, $ionicPopup, services, autenticacao, load, $state, $timeout, $cordovaToast) {
         var vm = this;
         vm.mensagem = '';
         vm.tipoUsuario = [{ tipoUsuarioId: 1, nome: 'Cliente' }, { tipoUsuarioId: 2, nome: 'Fornecedor' }];
@@ -62,13 +62,51 @@
             });
         };
 
+        function obterImagem(options) {
+            $cordovaCamera.getPicture(options).then(function (sourcePath) {
+                var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
+                var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
+                
+                // Destination URL 
+                var url = connection.baseWeb() + "/api/solicitacoes/cliente/uploadImages";
+
+                //File for Upload
+                var targetPath = cordova.file.dataDirectory + sourceFileName;
+
+                // File name only
+                var filename = targetPath.split("/").pop();
+
+                var options = {
+                    fileKey: "novaImagemProduto",
+                    fileName: filename,
+                    chunkedMode: false,
+                    mimeType: "image/jpeg",
+                    params: { 'directory': 'upload', 'fileName': filename } // directory represents remote directory,  fileName represents final remote file name
+                };
+
+                $cordovaFileTransfer.upload(url, sourcePath, options).then(function (result) {
+                    console.log("SUCCESS: " + JSON.stringify(result.response));
+                    var file = JSON.parse(result.response).message.split(".")[1];
+                    vm.usuario.urlImagem = connection.baseWeb() + file;
+                }, function (err) {
+                    console.log("ERROR: " + JSON.stringify(err));
+                }, function (progress) {
+                    // PROGRESS HANDLING GOES HERE
+                });
+
+            }, function (err) {
+                console.log(err);
+            });
+        }
+
         vm.tirarFoto = function () {
             var options = {
+                fileKey: "novaImagemProduto",
                 quality: 50,
                 destinationType: Camera.DestinationType.FILE_URI,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: true,
-                encodingType: Camera.EncodingType.JPEG,
+                encodingType: Camera.EncodingType.JPG,
                 targetWidth: 1024,
                 targetHeight: 768,
                 popoverOptions: CameraPopoverOptions,
@@ -76,19 +114,7 @@
                 //correctOrientation: true
             };
 
-            $cordovaCamera.getPicture(options).then(function (sourcePath) {
-                var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
-                var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
-               
-                $cordovaFile.copyFile(sourceDirectory, sourceFileName, cordova.file.dataDirectory, sourceFileName).then(function (success) {
-                    vm.usuario.urlImagem = cordova.file.dataDirectory + sourceFileName;
-                }, function (error) {
-                    console.dir(error);
-                });
-
-            }, function (err) {
-                console.log(err);
-            });
+            obterImagem(options);
         }
 
         vm.selecionarFoto = function () {
@@ -105,19 +131,7 @@
                 //correctOrientation: true
             };
 
-            $cordovaCamera.getPicture(options).then(function (sourcePath) {
-                var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
-                var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
-               
-                $cordovaFile.copyFile(sourceDirectory, sourceFileName, cordova.file.dataDirectory, sourceFileName).then(function (success) {
-                    vm.usuario.urlImagem = cordova.file.dataDirectory + sourceFileName;
-                }, function (error) {
-                    console.dir(error);
-                });
-
-            }, function (err) {
-                console.log(err);
-            });
+            obterImagem(options);
         }
 
         function editadoComSucesso() {
@@ -167,7 +181,7 @@
         activate();
     }
 
-    angular.module('cotarApp').controller(controllerId, ['$cordovaFile', '$location', '$ionicHistory', '$cordovaCamera', '$ionicPopup', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', usuarioEditar]);
+    angular.module('cotarApp').controller(controllerId, ['connection', '$cordovaFileTransfer', '$location', '$ionicHistory', '$cordovaCamera', '$ionicPopup', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', usuarioEditar]);
 
 })();
 

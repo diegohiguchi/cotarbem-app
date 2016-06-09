@@ -171,14 +171,14 @@
                     }
                 })
 
-                // .state('app.categoria', {
-                //     url: "/categoria",
-                //     views: {
-                //         'menuContent': {
-                //             templateUrl: "app/categoria/categoria.html"
-                //         }
-                //     }
-                // })
+                .state('app.categoria', {
+                    url: "/categoria",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/categoria/categoria.html"
+                        }
+                    }
+                })
                 
                 .state('app.segmento', {
                     url: "/segmento",
