@@ -4,8 +4,9 @@
     var serviceId = 'services';
 
     function services(loginServices, tipoUsuarioServices, categoriaServices, cotacaoServices, usuarioServices, solicitacaoServices,
-                      produtoServices, deviceTokenServices, salaServices, localizacaoServices, denunciaServices, avaliacaoServices,
-                      faleConoscoServices, notificacaoServices, dashboardServices, segmentoServices, subSegmentoServices) {
+                      produtoServices, deviceServices, salaServices, localizacaoServices, denunciaServices, avaliacaoServices,
+                      faleConoscoServices, notificacaoServices, dashboardServices, segmentoServices, subSegmentoServices, planoServices, 
+                      pedidoServices, enderecamentoServices, cidadeServices, estadoServices, compraServices) {
         var service = {
             loginServices: loginServices,
             tipoUsuarioServices: tipoUsuarioServices,
@@ -14,7 +15,7 @@
             usuarioServices: usuarioServices,
             solicitacaoServices: solicitacaoServices,
             produtoServices: produtoServices,
-            deviceTokenServices: deviceTokenServices,
+            deviceServices: deviceServices,
             salaServices: salaServices,
             localizacaoServices: localizacaoServices,
             denunciaServices: denunciaServices,
@@ -24,6 +25,12 @@
             dashboardServices: dashboardServices,
             segmentoServices: segmentoServices,
             subSegmentoServices: subSegmentoServices,
+            planoServices: planoServices,
+            pedidoServices: pedidoServices,
+            enderecamentoServices: enderecamentoServices,
+            cidadeServices: cidadeServices,
+            estadoServices: estadoServices,
+            compraServices: compraServices
             /*salaServices: salaServices,
             salaUsuarioServices: salaUsuarioServices*/
     };
@@ -32,7 +39,8 @@
 
     angular.module('cotarApp').factory(serviceId, [
         'loginServices', 'tipoUsuarioServices', 'categoriaServices', 'cotacaoServices', 'usuarioServices', 'solicitacaoServices',
-        'produtoServices', 'deviceTokenServices', 'salaServices', 'localizacaoServices', 'denunciaServices', 'avaliacaoServices',
-        'faleConoscoServices', 'notificacaoServices', 'dashboardServices', 'segmentoServices', 'subSegmentoServices',
+        'produtoServices', 'deviceServices', 'salaServices', 'localizacaoServices', 'denunciaServices', 'avaliacaoServices',
+        'faleConoscoServices', 'notificacaoServices', 'dashboardServices', 'segmentoServices', 'subSegmentoServices', 'planoServices', 'pedidoServices',
+        'enderecamentoServices', 'cidadeServices', 'estadoServices', 'compraServices',
         services]);
 })();

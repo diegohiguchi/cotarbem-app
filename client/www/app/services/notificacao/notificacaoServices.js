@@ -6,7 +6,8 @@
     function notificacaoServices($http, connection) {
         
         function obterTodas() {
-            return $http.get(connection.base() + '/notificacao/obterTodas');
+            //return $http.get(connection.base() + '/notificacao/obterTodas');
+            return $http.get(connection.baseWeb() + '/api/notificacoes');
         }
 
         function obterPorId(id) {
@@ -14,7 +15,8 @@
         }
 
         function adicionar(notificacao){
-            return $http.post(connection.base() + '/notificacao/adicionar', notificacao);
+            //return $http.post(connection.base() + '/notificacao/adicionar', notificacao);
+            return $http.post(connection.baseWeb() + '/api/notificacoes', notificacao);
         }
 
         function editar(notificacao){
@@ -30,15 +32,27 @@
         }
         
         function obterPorUsuarioId(id) {
-            return $http.get(connection.base() + '/notificacao/obterPorUsuarioId/' + id);
+            return $http.get(connection.baseWeb() + '/api/notificacoes/obterPorUsuarioId/' + id);
         }
         
         function obterNotificacoesEmAbertoPorUsuarioId(id) {
-            return $http.get(connection.base() + '/notificacao/obterNotificacoesEmAbertoPorUsuarioId/' + id);
+            return $http.get(connection.baseWeb() + '/api/notificacoes/obterNotificacoesEmAbertoPorUsuarioId/' + id);
         }
         
-        function editarListaPorUsuarioId(id) {
-            return $http.get(connection.base() + '/notificacao/editarListaPorUsuarioId/' + id);
+        function editarLista(notificacoes) {
+            return $http.post(connection.baseWeb() + '/api/notificacoes/editarLista', notificacoes);
+        }
+
+        function notificarFornecedores(solicitacao){
+            return $http.post(connection.baseWeb() + '/api/notificacoes/fornecedores', solicitacao)
+        }
+
+        function notificarCliente(solicitacao){
+            return $http.post(connection.baseWeb() + '/api/notificacoes/cliente', solicitacao);
+        }
+
+        function notificarFornecedorProduto(cotacao){
+            return $http.post(connection.baseWeb() + '/api/notificacoes/fornecedor/produto', cotacao);
         }
         
         var services = {
@@ -50,7 +64,10 @@
             obterPorNome: obterPorNome,
             obterPorUsuarioId: obterPorUsuarioId,
             obterNotificacoesEmAbertoPorUsuarioId: obterNotificacoesEmAbertoPorUsuarioId,
-            editarListaPorUsuarioId: editarListaPorUsuarioId
+            editarLista: editarLista,
+            notificarFornecedores: notificarFornecedores,
+            notificarCliente: notificarCliente,
+            notificarFornecedorProduto: notificarFornecedorProduto
         };
 
         return services;

@@ -240,7 +240,7 @@ hr.space {
 .notify{
     position: absolute;
     right: 15px;
-    top: 11px;
+    top: 13px;
 }
 .notify i{
     font-size: 20px;
@@ -258,6 +258,15 @@ hr.space {
     top: -3px;
     width: 16px;
     text-align: center;
+}
+.back{
+    position: absolute;
+    right: 89%;
+    top: 4px;
+}
+.back i{
+    font-size: 30px;
+    margin: 4px 14px 4px 11px;
 }
 .header a{
     color: #fff;
@@ -397,6 +406,7 @@ p.disable{
 }
 .list_notify li{
     padding: 0px 0;
+    height: 100%;
 }
 .list_notify p{
     text-transform: inherit !important;
@@ -710,12 +720,12 @@ img.profile-pic.left {
     display: block;
 }
 .list_leilao{
-    border: 1px solid #ebebeb;
+    /*border: 1px solid #ebebeb;*/
     border-radius: 5px;
     clear: both;
     height: 190px;
     list-style-type: none;
-    margin: 0px 20px;
+    /*margin: 0px 20px;*/
     padding: 10px 18px;
 }
 .list_leilao li{
@@ -779,7 +789,7 @@ img.profile-pic.left {
     width: 100%;
 }
 .form_lance input{
-	width: 100%;
+	width: 42%;
 	padding-left: 5%;
 	height: 40px;
 	border-radius: 6px;
@@ -798,8 +808,8 @@ img.profile-pic.left {
     text-align: left;
     color:#000;
 }
-.bar-footer{
-    height: 56px !important;
+.bar-footer {
+    height: 48px !important;
 }
 .chat-bubble.left{
     margin-left: 63px;
@@ -815,10 +825,10 @@ img.profile-pic.left {
 .notify  .fa-question-circle{
     font-size: 19px;   
 }
-
+/*
 .list_categoria{
     
-}
+}*/
 .list_categoria li{
     border-top: 1px solid #ebebeb;
     padding: 15px 10px;
@@ -859,7 +869,7 @@ img.profile-pic.left {
     left: 149px;
     margin-left: 0px;
     opacity: 1;
-    height: 110px;
+    height: 55px;
 }
 .button.button-dark.button-clear{
     font-size: 14px
@@ -912,33 +922,279 @@ img.profile-pic.left {
 p.italic {
     font-style: italic;
 }
+.item-icon-left-submenu {
+    padding-left: 40px;
+    color: #fff;
+}
+.submenu-label{
+    font-size: 13px;
+}
+.form_padrao .btn_padrao_disabled_solicitacao{
+    background: #ddd;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    height: 50px;
+    width: 100%;
+}
+.disponibilidade{
+    padding-left: 21px;
+}
+.label-disponibilidade{
+    height: 13px;
+}
+.textarea-cotacao {
+    height: 95px !important;
+}
+.clear-valor{
+    clear: both;
+	display: flex;
+}
+.valor{
+    width: 46%;
+    text-align: left;
+    padding-top: 9px;
+    padding-left: 9px;
+}
+.form_padrao .btn_padrao_duvida {
+    background: #12a3b6;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    height: 39px;
+    width: 12%;
+}
+.form_padrao .btn_padrao_item{
+    margin: 0 10px;
+    margin-right: 0px;
+    background: #12a3b6;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    height: 39px;
+    width: 15%;
+}
+.icon-ellipsis{
+    margin: 2px 2px 10px 10px;
+    width: 20px;
+    padding-top: 6px;
+    font-size: 22px;
+}
+.platform-ios .popover-arrow:after {
+    left: -4px !important;
+}
+.platform-ios .popover .scroll-content {
+    margin: 0 !important; 
+    border-radius: 10px;
+    left: 0 !important; 
+}
+.platform-ios .popover-arrow {
+     overflow: visible; 
+}
+.valor_detalhar{
+    padding-top: 0; 
+}
+.valor_total_detalhar{
+    margin-top: 0px !important;
+}
+.valor_detalhes{
+    margin-top: 0 !important;
+}
+.melhores_cotacoes_icone{
+    padding-left: 15px;
+}
+.list_color{
+    color: #12a3b6
+}
+.cotacao_valor{
+    padding-top: 6px;
+}
+.icon_rigth{
+    margin-right: 0 !important;
+}
+.badge {
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: red;
+    margin: 0 14%;
+    margin-top: 15px;
+    position: absolute;
+}
 
+.badge .number{
+    color: #fff;
+    margin-left: -3px;
+    padding-top: 2px;
+}
 
+.tabs-positive > .tabs, .tabs.tabs-positive {
+    border-color: #fff;
+    background-color: #12a3b6;
+    background-image: linear-gradient(0deg, #12a3b6, #12a3b6 50%, transparent 50%);
+    color: #fff;
+    margin: 0 -5px;
+}
 
+.tabs-striped.tabs-positive .tabs {
+     background-color: #12a3b6; 
+}
+.tabs-top > .tabs, .tabs.tabs-top {
+     top: 0; 
+     margin: 0 -5px;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.button.button-dark.button-clear {
+    margin: 0 6px;
+}
+.modal-backdrop, .modal-backdrop-bg {
+     position: initial; 
+}
+.badge-chat {
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #12a3b6;
+    margin: 0 -2%;
+    margin-top: -5px;
+    position: absolute;
+}
+.searchBar {
+	color: #fff;
+	margin: 0 !important;
+	padding: 0;
+}
+.searchBar .icon {
+	font-size: 27px;
+	line-height: 1.2;
+	padding-right: 6px;
+	padding-left: 6px;
+}
+.searchBar .searchTxt {
+	border-bottom: 1px solid #fff;
+	left: 55px;
+	width: calc(100% - 132px);
+	position: fixed;
+	height: calc(100% - 9px);
+}
+.searchBar.numicons2 .searchTxt {
+	width: calc(100% - 135px);
+}
+.searchBar .searchTxt > .bgdiv {
+	background-color: #aaa;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	opacity: 0.3;
+}
+.searchBar .searchTxt > .bgtxt {
+    background-color: #fff;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.searchBar .searchTxt input {
+	background-color: inherit;
+	color: #000;
+	padding-left: 5px;
+	padding-right:5px;
+}
+.search-icon{
+    margin: 7px 9px 7px 9px;
+    font-size: 21px;
+}
+.footer-nova-solicitacao{
+    height: 0px !important;
+    margin: 0 0px -11px;
+}
+.nova_cotacao_footer{
+    color: #a2a2a0;
+    text-decoration: none;
+    margin: 16px 79% 14px;
+    font-size: 18px;
+    float: left;
+    text-align: center;
+    width: 23%;
+    margin-top: -25%;
+}
+.nova_cotacao_footer i{
+    margin: 0 11px 17px;
+    padding-top: 14px;
+    font-size: 30px;
+    color: #fff;
+    display: block;
+}
+.badge-footer {
+    height: 57px;
+    width: 57px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #12a3b6;
+    margin: 0 -2%;
+    margin-top: -5px;
+    position: absolute;
+}
+.bar .buttons-left span {
+    margin-right: 0px;
+}
+.bar-assertive .button.button-clear {
+    border-color: transparent;
+    background: none;
+    box-shadow: none;
+    color: #fff;
+    font-size: 17px;
+    padding-left: 10px;
+}
+.data{
+    margin: 0 3px 4px;
+}
+.has-header {
+    height: 97%;
+}
+.has-header-notify{
+    height: 90% !important;
+}
+.icon-right{
+    padding-right: 10px;
+}
+.textarea-observacao{
+    height: 112px !important;
+}
+.badge-chat {
+    height: 10px;
+    width: 10px;
+    vertical-align: middle;
+    border-radius: 50%;
+    background: #33b400;
+    right: 30px;
+    margin-top: 25px;
+    position: absolute;
+}
+.badge-right{
+    margin-top: -10px !important;
+}
+.chat{
+    height: 85%;
+}
+.footer-btn-wrap{
+    top: 6px !important;
+}
+.imagem-adicionar{
+    height: 200%;
+    margin: 0 -22px;
+    margin-top: -26px;
+}
+.image-background{
+    background-position: center; 
+    background-size: cover; 
+}
+.form-camera{
+    margin: 0 0px 5px !important;
+}

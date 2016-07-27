@@ -2,43 +2,107 @@
     'use strict';
     var controllerId = 'home';
 
-    function home(load, $rootScope, $location, autenticacao, services) {
+    angular.module('cotarApp').controller(controllerId, ['socket', 'connection', 'load', '$rootScope', '$location', 'autenticacao', 'services', '$cordovaBadge', home]);
+
+    function home(socket, connection, load, $rootScope, $location, autenticacao, services, $cordovaBadge) {
+        socket.connect();
         var vm = this;
 
         if (!$rootScope.isAuthenticated)
             $location.path('/app/login');
 
-        function redirecionarDashboard(tipoUsuario) {
-            if (tipoUsuario.nome === 'Fornecedor')
-                $location.path('/app/cotacao/dashboard/fornecedor');
-            else if (tipoUsuario.nome === 'Cliente')
-                $location.path('/app/cotacao/dashboard/cliente');
-            else if (tipoUsuario.nome == 'Administrador')
-                $location.path('/app/categoria');
+        function obterQuantidadeNotificacoesIcone(quantidade) {
+            $cordovaBadge.promptForPermission();
+            $cordovaBadge.hasPermission().then(function (result) {
+                $cordovaBadge.set(quantidade);
+            }, function (error) {
+                console.log(error);
+            });
+        }
+
+        function adicionarNotificacao(data) {
+            vm.notificacao.push(data);
+            obterQuantidadeNotificacoesIcone(vm.notificacao.length);
+        }
+
+        socket.on('envia-solicitacao', function (data) {
+            obterUltimaSolicitacaoPorSubSegmentos(vm.usuario.subSegmentos);
+            adicionarNotificacao(data);
+        });
+
+        socket.on('envia-cotacao-encerrada', function (data) {
+            adicionarNotificacao(data);
+        });
+
+        socket.on('notificacao-chat-cliente', function (data) {
+            adicionarNotificacao(data);
+        });
+
+        socket.on('notificacao-chat-fornecedor', function (data) {
+            adicionarNotificacao(data);
+        });
+
+        function vincularSocket() {
+            if (vm.usuario.cliente)
+                socket.emit('adiciona-usuario', vm.usuario);
+
+            if (vm.usuario.fornecedor)
+                socket.emit('carrega-subSegmentos', vm.usuario.subSegmentos);
         }
 
         function obterUsuario() {
+            vm.usuario = autenticacao.getUser();
+            vm.usuario.profileImageURL = connection.baseWeb() + '/' + vm.usuario.profileImageURL;
+            vm.usuario.cliente = _.contains(vm.usuario.roles, 'cliente');
+            vm.usuario.fornecedor = _.contains(vm.usuario.roles, 'fornecedor');
+        }
+
+        function obterNotificacoes(usuarioId) {
             load.showLoadingSpinner();
-            var usuario = autenticacao.getUser();
-             services.usuarioServices.obterPorId(usuario._id).success(function(response){
-                vm.usuario = response.data;
+            services.notificacaoServices.obterNotificacoesEmAbertoPorUsuarioId(usuarioId).success(function (response) {
+                vm.notificacao = response;
+
+                obterQuantidadeNotificacoesIcone(vm.notificacao.length);
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
+            });
+        }
+
+        function obterUltimaSolicitacaoPorSubSegmentos(subSegmentos) {
+            services.solicitacaoServices.obterUltimaSolicitacaoPorSubSegmentos(subSegmentos).success(function (response) {
+                vm.solicitacaoFornecedor = response;
                 load.hideLoading();
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
-            }).then(function(){
-                redirecionarDashboard(vm.usuario.tipoUsuario);
             });
+        }
+
+        function obterSolicitacao(usuario) {
+            if (vm.usuario.cliente) {
+                services.solicitacaoServices.obterUltimaSolicitacaoPorUsuarioId(usuario._id).success(function (response) {
+                    vm.solicitacaoCliente = response;
+                    load.hideLoading();
+                }).error(function (err, statusCode) {
+                    load.hideLoading();
+                    load.toggleLoadingWithMessage(err.message);
+                });
+            }
+
+            if (vm.usuario.fornecedor) {
+                obterUltimaSolicitacaoPorSubSegmentos(usuario.subSegmentos);
+            }
         }
 
         function activate() {
             obterUsuario();
+            obterNotificacoes(vm.usuario._id);
+            vincularSocket();
+            obterSolicitacao(vm.usuario);
         }
 
         activate();
     }
-
-    angular.module('cotarApp').controller(controllerId, ['load', '$rootScope', '$location', 'autenticacao', 'services', home]);
-    ;
 
 })();

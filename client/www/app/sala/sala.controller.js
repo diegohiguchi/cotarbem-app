@@ -2,42 +2,55 @@
     'use strict';
     var controllerId = 'sala';
 
+    angular.module('cotarApp').controller(controllerId, ['services', 'load', '$state', '$ionicScrollDelegate', 'autenticacao', sala]);
+
     function sala(services, load, $state, $ionicScrollDelegate, autenticacao) {
         var vm = this;
         var sala = {};
         var usuario = {};
         var tipoUsuario = {};
         var solicitacoes = [];
-        var listaSolicitacoes = [];
         var viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
 
-        function obterUsuario() {
-            usuario = autenticacao.getUser();
-        }
+        vm.mostrarSala = function (tipoUsuario) {
+            if (vm.verificarTipoUsuario(tipoUsuario)) {
+                vm.mostraSalaTipoUsuario = null;
+            } else {
+                vm.mostraSalaTipoUsuario = tipoUsuario;
+            }
+        };
 
-        function obterSalas(usuario){
+        vm.verificarTipoUsuario = function (tipoUsuario) {
+            return vm.mostraSalaTipoUsuario === tipoUsuario;
+        };
+
+        function obterSalas(usuario) {
             load.showLoadingSpinner();
-            if(usuario.tipoUsuario.nome === 'Cliente')
-                obterSolicitacoes();
-            else if(usuario.tipoUsuario.nome === 'Fornecedor')
+            if (vm.usuario.cliente)
+                obterSolicitacoes(usuario);
+            if (vm.usuario.fornecedor)
                 obterSalasPorUsuario(usuario);
         }
 
-        function obterSolicitacoes(){
-            services.solicitacaoServices.obterSolicitacoesIdPorUsuarioId(usuario._id).success(function(response){
-                solicitacoes = response.data;
-                solicitacoes.forEach(function(solicitacao){
-                    listaSolicitacoes.push(solicitacao._id);
-                });
+        function obterSolicitacoes(usuario) {
+            services.solicitacaoServices.obterSolicitacoesPorUsuarioId(usuario._id).success(function (response) {
+                solicitacoes = response;
 
-            }).then(function(){
-                obterSalasPorSolicitacao(listaSolicitacoes)
+                if (solicitacoes.length > 0) {
+                    solicitacoes = _.pluck(solicitacoes, '_id');
+                    obterSalasPorSolicitacao(solicitacoes);
+                } else
+                    load.hideLoading();
+
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
         function obterSalasPorSolicitacao(solicitacoes) {
-            services.salaServices.obterListaSalasPorSolicitacaoId(solicitacoes).success(function (response) {
-                vm.salas = response.data;
+            services.salaServices.obterSalasPorSolicitacao(solicitacoes).success(function (response) {
+                vm.salasCliente = response;
                 load.hideLoading();
             }).error(function (err, statusCode) {
                 load.hideLoading();
@@ -45,9 +58,9 @@
             });
         }
 
-        function obterSalasPorUsuario(usuario){
-            services.salaServices.obterPorUsuarioId(usuario._id).success(function (response) {
-                vm.salas = response.data;
+        function obterSalasPorUsuario(usuario) {
+            services.salaServices.obterSalasPorUsuarioId(usuario._id).success(function (response) {
+                vm.salasFornecedor = response;
                 load.hideLoading();
             }).error(function (err, statusCode) {
                 load.hideLoading();
@@ -56,29 +69,39 @@
         }
 
         vm.salaSelecionada = function (sala) {
-
             sala = angular.toJson({
+                _id: sala._id,
                 solicitacao: sala.solicitacao,
                 produto: sala.produto,
-                usuario: sala.usuario,
-                menuSala: true
+                usuario: { _id: sala.tipoUsuario == 'Fornecedor' ? sala.solicitacao.user : sala.user },
+                cotacao: { fornecedor: sala.user },
+                tipoUsuario: sala.tipoUsuario,
+                menuSala: true,
+                visualizacao: sala.visualizacao
             });
 
-            $state.go('app.chat', {'sala': sala})
+            $state.go('app.salaChat', { 'sala': sala })
+        }
+
+        function obterUsuario() {
+            vm.usuario = autenticacao.getUser();
+            vm.usuario.cliente = _.contains(vm.usuario.roles, 'cliente');
+            vm.usuario.fornecedor = _.contains(vm.usuario.roles, 'fornecedor');
+            debugger
+            
+            obterSalas(vm.usuario);
         }
 
         function activate() {
             vm.salas = [];
             obterUsuario();
-            obterSalas(usuario);
         }
 
         activate();
     }
 
-    angular.module('cotarApp').controller(controllerId, ['services', 'load', '$state', '$ionicScrollDelegate', 'autenticacao', sala]);
 })
-();
+    ();
 
 
 /*

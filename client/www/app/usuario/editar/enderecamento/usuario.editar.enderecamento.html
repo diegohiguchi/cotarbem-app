@@ -1,0 +1,100 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="usuario.editar.enderecamento as vm">
+    <ion-nav-title>
+        Meu Endereço
+    </ion-nav-title>
+    <ion-nav-buttons>
+		<a class="button ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+	</ion-nav-buttons>
+    <ion-content>
+        <ion-content>
+            <div class="form_padrao">
+                <form name="formEnderecamento" novalidate ng-submit="vm.salvarEndrecamento(formEnderecamento.$valid)">
+                    <div class="clear">
+                        <select name="estado" id="estado" class="form-control" ng-model="vm.enderecamento.estado" ng-options="estados.nome for estados in vm.estados"
+                            required ng-change="vm.filtrarCidadesPorEstado(vm.enderecamento.estado)">
+                            <option value="">Selecione o Estado *</option>
+                        </select>
+                    </div>
+                    <div class="clear">
+                        <select name="cidade" id="cidade" class="form-control" ng-model="vm.enderecamento.cidade" ng-options="cidades.nome for cidades in vm.cidades"
+                            required ng-disabled="vm.enderecamento.estado == undefined">
+                            <option value="">Selecione a Cidade *</option>
+                        </select>
+                    </div>
+                    <div class="clear">
+                        <input type="text" id="endereco" name="endereco" class="form-control" placeholder="Endereço *" ng-model="vm.enderecamento.endereco"
+                            required>
+                    </div>
+                    <div class="clear">
+                        <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro *" ng-model="vm.enderecamento.bairro"
+                            required>
+                    </div>
+                    <div class="clear">
+                        <input type="text" name="numero" placeholder="Número *" ng-model="vm.enderecamento.numero" required>
+                    </div>
+                    <div class="clear">
+                        <input type="text" name="complemento" placeholder="Complemento" ng-model="vm.enderecamento.complemento">
+                    </div>
+                    <div class="clear">
+                        <input type="text" id="cep" ng-model="vm.enderecamento.cep" placeholder="CEP *" name="cep" class="form-control" ui-br-cep-mask
+                            required>
+                    </div>
+
+                    <!--<p class="desc_cep" ng-show="!(vm.usuario.endereco | isEmpty)">
+                        <strong>Logradouro:</strong> {{vm.usuario.endereco.logradouro}}
+                        <br />
+                        <strong>Bairro:</strong> {{vm.usuario.endereco.bairro}}
+                        <br />
+                        <strong>Cidade:</strong> {{vm.usuario.endereco.cidade}} - {{vm.usuario.endereco.estado}}
+                        <br />
+                    </p>-->
+
+                    <div class="clear" ng-show="!!vm.mensagem">
+                        <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i>
+                            {{vm.mensagem}}
+                        </span>
+                    </div>
+
+                    <div class="clear" ng-show="formEditarEnderecamento.$submitted">
+                        <div ng-messages="formEditarEnderecamento.$error">
+                            <div ng-messages-include="error-list.html"></div>
+                        </div>
+                    </div>
+
+                    <hr class="space">
+
+                    <div class="clear">
+                        <input class="btn_padrao" type="submit" value="Salvar" />
+                    </div>
+
+                    <script id="error-list.html" type="text/ng-template">
+                        <div ng-message="required">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe os campos com asterisco (*)
+                    </span>
+                        </div>
+                        <div ng-message="minlength">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe senha com pelo menos 3 caracteres
+                    </span>
+                        </div>
+                        <div ng-message="maxlength">
+                            <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Tamanho máximo no campo nome é de 50 caracteres
+                    </span>
+                        </div>
+                        <div ng-message when="email">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> E-mail inválido
+                            </span>
+                        </div>
+                    </script>
+                </form>
+            </div>
+        </ion-content>
+    </ion-content>
+</ion-view>

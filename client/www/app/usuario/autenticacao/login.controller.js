@@ -2,17 +2,23 @@
     'use strict';
     var controllerId = 'login';
 
-    //function login($rootScope, $location, services, autenticacao, load, $ionicUser, $ionicPush) {
-    function login(connection, $cordovaFileTransfer, $scope, $rootScope, $location, services, autenticacao, load, $timeout, $ionicPush, $ionicUser, $cordovaCamera, $ionicPopup, $ionicScrollDelegate, $ionicModal) {
+    angular.module('cotarApp').controller(controllerId, ['connection', '$cordovaFileTransfer', '$scope', '$rootScope', '$location', 'services', 'autenticacao', 'load',
+        '$timeout', '$ionicPush', '$ionicUser', '$cordovaCamera', '$ionicPopup', '$ionicScrollDelegate', '$ionicModal', login]);
+
+    function login(connection, $cordovaFileTransfer, $scope, $rootScope, $location, services, autenticacao, load, $timeout, $ionicPush,
+        $ionicUser, $cordovaCamera, $ionicPopup, $ionicScrollDelegate, $ionicModal) {
         var vm = this;
         vm.viewLogin = false;
         vm.viewRegistro = false;
-        vm.tipoUsuario = [{ tipoUsuarioId: 1, nome: 'Cliente' }, { tipoUsuarioId: 2, nome: 'Fornecedor' }];
+        vm.campoObrigatorioTipoUsuario = false;
+        vm.pedido = {};
+        vm.tipoUsuario = [{ _id: 1, nome: 'Cliente' }, { _id: 2, nome: 'Fornecedor' }];
         vm.usuario = {
             email: '',
             password: '',
             //urlImagem: '',
-            endereco: {}
+            //endereco: {}, 
+            tipoUsuario: []
         };
 
         $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
@@ -20,49 +26,43 @@
             adicionarDeviceToken(data.token);
         });
 
-        function redirecionarHome(tipoUsuario) {
-            // services.tipoUsuarioServices.obterPorId(tipoUsuarioId).success(function (response) {
-            //     tipoUsuario = response.data;
-            // }).then(function () {
-            if (tipoUsuario.nome === 'Fornecedor')
-                $location.path('/app/cotacao/dashboard/fornecedor');
-            else if (tipoUsuario.nome === 'Cliente')
-                $location.path('/app/cotacao/dashboard/cliente');
-            else if (tipoUsuario.nome == 'Administrador')
-                $location.path('/app/categoria');
-            // });
+        // function redirecionarHome(tipoUsuario) {
+        //     // services.tipoUsuarioServices.obterPorId(tipoUsuarioId).success(function (response) {
+        //     //     tipoUsuario = response.data;
+        //     // }).then(function () {
+        //     if (tipoUsuario.nome === 'Fornecedor')
+        //         $location.path('/app/cotacao/dashboard/fornecedor');
+        //     else if (tipoUsuario.nome === 'Cliente')
+        //         $location.path('/app/cotacao/dashboard/cliente');
+        //     else if (tipoUsuario.nome == 'Administrador')
+        //         $location.path('/app/tipoUsuario');
+        //     // });
 
-            //load.hideLoading();
-        }
+        //     //load.hideLoading();
+        // }
 
-        vm.buscarCep = function (cep) {
-            if (cep == undefined) {
-                vm.usuario.endereco = {};
-                vm.usuario.cep = '';
-                vm.mensagem = '';
-                return;
-            }
+        // vm.buscarCep = function (cep) {
+        //     if (cep == undefined) {
+        //         vm.usuario.endereco = {};
+        //         vm.usuario.cep = '';
+        //         vm.mensagem = '';
+        //         return;
+        //     }
 
-            load.showLoadingSpinner();
-            services.localizacaoServices.obterCep(cep).success(function (response) {
-                vm.mensagem = '';
-                vm.usuario.endereco = response.data;
-                load.hideLoading();
-            }).error(function (err, statusCode) {
-                vm.usuario.endereco = {};
-                vm.mensagem = err.message;
-                load.hideLoading();
-            });
-        }
-
-        function activate() {
-
-        }
-
-        activate();
+        //     load.showLoadingSpinner();
+        //     services.localizacaoServices.obterCep(cep).success(function (response) {
+        //         vm.mensagem = '';
+        //         vm.usuario.endereco = response.data;
+        //         load.hideLoading();
+        //     }).error(function (err, statusCode) {
+        //         vm.usuario.endereco = {};
+        //         vm.mensagem = err.message;
+        //         load.hideLoading();
+        //     });
+        // }
 
         /*function editarDeviceToken(device) {
-         services.deviceTokenServices.editar(device).success(function (response) {
+         services.deviceServices.editar(device).success(function (response) {
          });
          }
 
@@ -82,18 +82,17 @@
 
         function adicionarDeviceToken(token) {
             var usuario = autenticacao.getUser();
-
             var device = {
-                usuarioId: usuario._id,
+                user: usuario._id,
                 token: token
             }
 
-            services.deviceTokenServices.register(device).then(function (response) {
-                /* deviceToken.setDeviceToken(appDeviceToken);
-                 deviceToken.setToken({
-                 token: response.token,
-                 expires: response.expires
-                 });*/
+            services.deviceServices.adicionar(device).then(function (response) {
+                // deviceToken.setDeviceToken(appDeviceToken);
+                // deviceToken.setToken({
+                //     token: response.token,
+                //     expires: response.expires
+                // });
                 //alert('registered!');
             });
 
@@ -112,9 +111,7 @@
                     vm.lastNotification = JSON.stringify(notification);
                 }
             }).then(function (deviceToken) {
-                vm.token = deviceToken;
-                //adicionarDeviceToken(vm.token);
-                console.log(vm.token);
+                console.log(deviceToken);
             });
             //}
         }
@@ -141,9 +138,7 @@
             load.showLoadingSpinner();
 
             services.loginServices.login(usuario).success(function (response) {
-
-                response = response.data;
-                autenticacao.setUser(response.user);
+                autenticacao.setUser(response);
                 autenticacao.setToken({
                     token: response.token,
                     expires: response.expires
@@ -153,9 +148,9 @@
 
                 //obterDeviceToken(response);
                 identificarUsuario();
-                //obterDeviceToken();
-                redirecionarHome(response.user.tipoUsuario);
-                //$scope.modal.hide();
+                obterDeviceToken();
+
+                $location.path('/app/home');
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
@@ -173,29 +168,120 @@
             }
         }
 
-        vm.registrar = function (usuario) {
-            if (vm.mensagem != '')
-                return;
+        vm.showPopupTipoUsuario = function () {
 
-            load.showLoadingSpinner();
+            var myPopup = $ionicPopup.show({
+                template: '<div class="list list_categoria" ng-repeat="tipoUsuario in vm.tipoUsuario" ng-click="vm.selecionado(tipoUsuario)">' +
+                '<div class="tipoUsuario">' +
+                '<label class="checkbox">' +
+                '<input type="checkbox" ng-model="tipoUsuario.selecionado"></input>' +
+                '</label><span class="tipoUsuario-nome">{{ tipoUsuario.nome }}</span></div></div>' +
+                '<div class="clear" ng-show="!!vm.campoObrigatorioTipoUsuario">' +
+                '<span class="alert-error-tipoUsuario">' +
+                '<i class="fa fa-exclamation-triangle"></i>' +
+                'Selecione o Tipo de Usuário' +
+                '</span>' +
+                '</div>',
+                title: 'Selecione o Tipo de Usuário',
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancelar' },
+                    {
+                        text: '<b>Ok</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!_.find(vm.tipoUsuario, { selecionado: true })) {
+                                vm.campoObrigatorioTipoUsuario = true;
+                                e.preventDefault();
+                            } else {
+                                return vm.campoObrigatorioTipoUsuario = false;
+                            }
+                        }
+                    }
+                ]
+            });
+        };
 
-            usuario.endereco = adicionarEndereco(usuario);
+        vm.selecionado = function (tipoUsuario) {
+            var index = vm.usuario.tipoUsuario.indexOf(tipoUsuario.nome);
 
-            services.loginServices.registrar(usuario).success(function (response) {
+            if (index > -1) {
+                vm.usuario.tipoUsuario.splice(index, 1);
+                tipoUsuario.selecionado = false;
+            } else {
+                vm.usuario.tipoUsuario.push(tipoUsuario.nome);
+                tipoUsuario.selecionado = true;
+                vm.campoObrigatorioTipoUsuario = false;
+            }
+        }
 
-                response = response.data;
-                autenticacao.setUser(response.user);
+        function adicionarTipoDocumento(usuario) {
+            if (usuario.numeroDocumento.length == 11)
+                vm.usuario.tipoDocumento = 'CPF';
+            else
+                vm.usuario.tipoDocumento = 'CNPJ';
+        }
+
+        function adicionarRegrasTipoUsuario(usuario) {
+            vm.usuario.roles = [];
+
+            usuario.tipoUsuario.forEach(function (tipoUsuario) {
+                vm.usuario.roles.push(tipoUsuario.toLowerCase());
+            });
+        }
+
+        function adicionarPedidoPlanoGratuito(usuario) {
+            var data = new Date();
+
+            vm.pedido.dataVencimento = data.setDate(data.getDate() + vm.planoGratuito.quantidadeDias);
+            vm.pedido.status = 0; //Gratuito
+            vm.pedido.plano = vm.planoGratuito._id;
+            vm.pedido.user = usuario._id;
+
+            services.pedidoServices.adicionar(vm.pedido).success(function (response) {
+
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
+            }).then(function () {
+                autenticacao.setUser(usuario);
                 autenticacao.setToken({
-                    token: response.token,
-                    expires: response.expires
+                    token: usuario.token,
+                    expires: usuario.expires
                 });
 
                 $rootScope.isAuthenticated = true;
 
-                //obterDeviceToken(response);
                 identificarUsuario();
                 obterDeviceToken();
-                redirecionarHome(response.user.tipoUsuario);
+                $location.path('/app/home');
+            });
+        }
+
+        vm.registrar = function (usuario) {
+            if (vm.mensagem != undefined)
+                return;
+
+            load.showLoadingSpinner();
+            adicionarTipoDocumento(vm.usuario);
+            adicionarRegrasTipoUsuario(vm.usuario);
+            //usuario.endereco = adicionarEndereco(usuario);
+
+            services.loginServices.registrar(usuario).success(function (response) {
+                adicionarPedidoPlanoGratuito(response);
+
+                // autenticacao.setUser(response);
+                // autenticacao.setToken({
+                //     token: response.token,
+                //     expires: response.expires
+                // });
+
+                // $rootScope.isAuthenticated = true;
+
+                // //obterDeviceToken(response);
+                //identificarUsuario();
+                // obterDeviceToken();
+                // //redirecionarHome(response.user.tipoUsuario);
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
@@ -229,9 +315,10 @@
             $cordovaCamera.getPicture(options).then(function (sourcePath) {
                 //var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
                 var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
-                
-                // Destination URL 
-                var url = connection.baseWeb() + "/api/solicitacoes/cliente/uploadImages";
+
+                // Destination URL
+                //var url = connection.baseWeb() + "/api/solicitacoes/cliente/uploadImages";
+                var url = connection.baseWeb() + "/api/users/picture";
 
                 //File for Upload
                 var targetPath = cordova.file.dataDirectory + sourceFileName;
@@ -240,7 +327,8 @@
                 var filename = targetPath.split("/").pop();
 
                 var options = {
-                    fileKey: "novaImagemProduto",
+                    //fileKey: "novaImagemProduto",
+                    fileKey: "newProfilePicture",
                     fileName: filename,
                     chunkedMode: false,
                     mimeType: "image/jpeg",
@@ -320,17 +408,36 @@
             vm.modal.hide();
         };
 
-        vm.enviarSenha = function (email) {
-            load.showLoading('Enviando...');
-            services.loginServices.resetPassword(email).success(function (response) {
-                load.toggleLoadingWithMessage('Nova senha enviada com sucesso.');
+        function enviadoComSucesso() {
+            load.showLoading('Solicita&ccedil;&atilde;o enviada com sucesso, verifique seu e-mail.');
+
+            $timeout(function () {
+                load.hideLoading();
+            }, 3000);
+        }
+
+        vm.enviarSenha = function (usuario) {
+            load.showLoadingSpinner();
+            services.loginServices.resetPassword(usuario).success(function (response) {
+                enviadoComSucesso();
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
             });
         }
+
+        function obterPlanos() {
+            services.planoServices.obterTodos().success(function (response) {
+                vm.planos = response;
+                vm.planoGratuito = _.find(vm.planos, { nome: 'Gratuito' });
+            });
+        }
+
+        function activate() {
+            obterPlanos();
+        }
+
+        activate();
     }
 
-    angular.module('cotarApp').controller(controllerId, ['connection', '$cordovaFileTransfer', '$scope', '$rootScope', '$location', 'services', 'autenticacao', 'load',
-        '$timeout', '$ionicPush', '$ionicUser', '$cordovaCamera', '$ionicPopup', '$ionicScrollDelegate', '$ionicModal', login]);
 })();

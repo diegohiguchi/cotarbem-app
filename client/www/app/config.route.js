@@ -36,101 +36,182 @@
                     }
                 })
 
-                .state('app.solicitacaoCliente', {
-                    url: "/cotacao/solicitacao/cliente/:categoria",
+                // .state('app.solicitacaoCliente', {
+                //     url: "/cotacao/solicitacao/cliente/:categoria",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/cotacao/solicitacao/cliente/cotacao.solicitacao.cliente.html"
+                //         }
+                //     }
+                // })
+
+                .state('app.cotacaoCliente', {
+                    url: "/cotacao/cliente",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/cliente/cotacao.solicitacao.cliente.html"
+                            templateUrl: "app/cotacao/cliente/cotacao.cliente.html"
                         }
                     }
                 })
 
-                .state('app.solicitacaoFornecedor', {
-                    url: "/cotacao/solicitacao/fornecedor/:categoria",
+                // .state('app.cotacaoClienteFiltrar', {
+                //     url: "/cotacao/cliente/filtrar",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/cotacao/cliente/filtrar/cotacao.cliente.filtrar.html"
+                //         }
+                //     }
+                // })
+
+                .state('app.cotacaoClienteProduto', {
+                    url: "/cotacao/cliente/produto/:solicitacao",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/fornecedor/cotacao.solicitacao.fornecedor.html"
+                            templateUrl: "app/cotacao/cliente/produto/cotacao.cliente.produto.html"
                         }
                     }
                 })
 
-                .state('app.solicitacaoProduto', {
-                    url: "/cotacao/solicitacao/produto/:solicitacao",
+                .state('app.cotacaoClienteProdutoValor', {
+                    url: "/cotacao/cliente/produto/valor/:cotacao",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/produto/cotacao.solicitacao.produto.html"
+                            templateUrl: "app/cotacao/cliente/produto/valor/cotacao.cliente.produto.valor.html"
+                        }
+                    }
+                })
+
+                .state('app.cotacaoClienteProdutoValorDetalhar', {
+                    url: "/cotacao/cliente/produto/valor/detalhar/:cotacao",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/cotacao/cliente/produto/valor/detalhar/cotacao.cliente.produto.valor.detalhar.html"
+                        }
+                    }
+                })
+
+                .state('app.cotacaoFornecedor', {
+                    url: "/cotacao/fornecedor",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/cotacao/fornecedor/cotacao.fornecedor.html"
+                        }
+                    }
+                })
+
+                .state('app.cotacaoFornecedorProduto', {
+                    url: "/cotacao/fornecedor/produto/:solicitacao",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/cotacao/fornecedor/produto/cotacao.fornecedor.produto.html"
+                        }
+                    }
+                })
+
+                .state('app.cotacaoFornecedorProdutoValor', {
+                    url: "/cotacao/produto/fornecedor/valor/:produto",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/cotacao/fornecedor/produto/valor/cotacao.fornecedor.produto.valor.html"
+                        }
+                    }
+                })
+
+                .state('app.cotacaoFornecedorProdutoValorDetalhar', {
+                    url: "/cotacao/fornecedor/produto/valor/detalhar/:cotacao",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/cotacao/fornecedor/produto/valor/detalhar/cotacao.fornecedor.produto.valor.detalhar.html"
                         }
                     }
                 })
 
                 .state('app.notificacaoSolicitacaoProduto', {
-                    url: "/cotacao/solicitacao/produto/notificacao/solicitacaoId?id",
+                    url: "/cotacao/produto/notificacao/solicitacao?id",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/produto/cotacao.solicitacao.produto.html"
+                            templateUrl: "app/cotacao/fornecedor/produto/cotacao.fornecedor.produto.html"
                         }
                     }
                 })
 
-                .state('app.solicitacaoProdutoDetalhar', {
-                    url: "/cotacao/solicitacao/produto/detalhar/:produto",
+                .state('app.cotacaoClienteSolicitacaoAdicionar', {
+                    url: "/cotacao/cliente/solicitacao/adicionar/:solicitacao",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/produto/detalhar/cotacao.solicitacao.produto.detalhar.html"
+                            templateUrl: "app/cotacao/cliente/solicitacao/adicionar/cotacao.cliente.solicitacao.adicionar.html"
                         }
                     }
                 })
 
-                .state('app.solicitacaoProdutoLeilao', {
-                    url: "/cotacao/solicitacao/produto/leilao/:produto",
+                // .state('app.cotacaoDashboardCliente', {
+                //     url: "/cotacao/dashboard/cliente",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/cotacao/dashboard/cliente/cotacao.dashboard.cliente.html"
+                //         }
+                //     }
+                // })
+
+                // .state('app.cotacaoDashboardFornecedor', {
+                //     url: "/cotacao/dashboard/fornecedor",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/cotacao/dashboard/fornecedor/cotacao.dashboard.fornecedor.html"
+                //         }
+                //     }
+                // })
+
+                .state('app.cotacaoNotificacao', {
+                    url: "/notificacao",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/produto/leilao/cotacao.solicitacao.produto.leilao.html"
+                            templateUrl: "app/notificacao/notificacao.html"
                         }
                     }
                 })
 
-                .state('app.cotacaoSolicitacaoClienteCadastro', {
-                    url: "/cotacao/solicitacao/cliente/cadastro/:solicitacao",
+                // .state('app.cotacaoNotificacaoFornecedor', {
+                //     url: "/notificacao/fornecedor",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/notificacao/fornecedor/notificacao.fornecedor.html"
+                //         }
+                //     }
+                // })
+
+                // .state('app.cotacaoNotificacaoCliente', {
+                //     url: "/notificacao/cliente",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/notificacao/cliente/notificacao.cliente.html"
+                //         }
+                //     }
+                // })
+
+                .state('app.compra', {
+                    url: "/compra",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/solicitacao/cliente/cadastro/cotacao.solicitacao.cliente.cadastro.html"
-                        }
-                    }
-                })
-                
-                .state('app.cotacaoDashboardCliente', {
-                    url: "/cotacao/dashboard/cliente",
-                    views: {
-                        'menuContent': {
-                            templateUrl: "app/cotacao/dashboard/cliente/cotacao.dashboard.cliente.html"
+                            templateUrl: "app/compra/compra.html"
                         }
                     }
                 })
 
-                .state('app.cotacaoDashboardFornecedor', {
-                    url: "/cotacao/dashboard/fornecedor",
+                .state('app.compraCliente', {
+                    url: "/compra/cliente/:usuarioId",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/dashboard/fornecedor/cotacao.dashboard.fornecedor.html"
+                            templateUrl: "app/compra/cliente/compra.cliente.html"
                         }
                     }
                 })
 
-                .state('app.cotacaoNotificacaoCliente', {
-                    url: "/cotacao/notificacao/cliente",
+                .state('app.compraFornecedor', {
+                    url: "/compra/fornecedor/:usuarioId",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/cotacao/notificacao/cliente/cotacao.notificacao.cliente.html"
-                        }
-                    }
-                })
-                
-                 .state('app.cotacaoNotificacaoFornecedor', {
-                    url: "/cotacao/notificacao/fornecedor",
-                    views: {
-                        'menuContent': {
-                            templateUrl: "app/cotacao/notificacao/fornecedor/cotacao.notificacao.fornecedor.html"
+                            templateUrl: "app/compra/fornecedor/compra.fornecedor.html"
                         }
                     }
                 })
@@ -144,20 +225,29 @@
                     }
                 })
 
-                .state('app.denuncia', {
-                    url: "/denuncia",
+                .state('app.salaChat', {
+                    url: "/sala/chat/:sala",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/denuncia/denuncia.html"
+                            templateUrl: "app/sala/chat/sala.chat.html"
                         }
                     }
                 })
 
-                .state('app.chat', {
-                    url: "/chat/:sala",
+                .state('app.salaChatDetalhar', {
+                    url: "/sala/chat/detalhar/:cotacao",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/sala/chat/chat.html"
+                            templateUrl: "app/sala/chat/detalhar/sala.chat.detalhar.html"
+                        }
+                    }
+                })
+
+                .state('app.salaChatDenuncia', {
+                    url: "/sala/chat/denuncia",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/denuncia/denuncia.html"
                         }
                     }
                 })
@@ -166,7 +256,7 @@
                     url: "/chat/notificacao/sala?solicitacaoId&produtoNome",
                     views: {
                         'menuContent': {
-                            templateUrl: "app/sala/chat/chat.html"
+                            templateUrl: "app/sala/chat/sala.chat.html"
                         }
                     }
                 })
@@ -179,7 +269,7 @@
                         }
                     }
                 })
-                
+
                 .state('app.segmento', {
                     url: "/segmento",
                     views: {
@@ -188,9 +278,9 @@
                         }
                     }
                 })
-                
+
                 .state('app.subSegmento', {
-                    url: "/segmento/subSegmento/:id",
+                    url: "/segmento/subSegmento/:segmentoId",
                     views: {
                         'menuContent': {
                             templateUrl: "app/segmento/subSegmento/subSegmento.html"
@@ -207,14 +297,14 @@
                     }
                 })
 
-                .state('app.categoriaEditar', {
-                    url: "/categoria/editar/:id",
-                    views: {
-                        'menuContent': {
-                            templateUrl: "app/categoria/editar/categoria.editar.html"
-                        }
-                    }
-                })
+                // .state('app.categoriaEditar', {
+                //     url: "/categoria/editar/:id",
+                //     views: {
+                //         'menuContent': {
+                //             templateUrl: "app/categoria/editar/categoria.editar.html"
+                //         }
+                //     }
+                // })
 
                 .state('app.usuario', {
                     url: "/usuario",
@@ -226,14 +316,23 @@
                 })
 
                 .state('app.usuarioEditar', {
-                    url: "/usuario/editar/:usuario",
+                    url: "/usuario/editar/:usuarioId",
                     views: {
                         'menuContent': {
                             templateUrl: "app/usuario/editar/usuario.editar.html"
                         }
                     }
                 })
-                
+
+                .state('app.usuarioEditarEnderecamento', {
+                    url: "/usuario/editar/enderecamento/:usuarioId",
+                    views: {
+                        'menuContent': {
+                            templateUrl: "app/usuario/editar/enderecamento/usuario.editar.enderecamento.html"
+                        }
+                    }
+                })
+
                 .state('app.usuarioDetalhar', {
                     url: "/usuario/detalhar",
                     views: {

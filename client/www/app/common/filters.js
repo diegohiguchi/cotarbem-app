@@ -68,24 +68,38 @@
             return angular.equals({}, object);
         }
     }]);
-    
-    app.filter('split', function() {
-        return function(input, splitChar, splitIndex) {
+
+    app.filter('split', function () {
+        return function (input, splitChar, splitIndex) {
             return input.split(splitChar)[splitIndex];
         }
     });
 
-    app.filter('tipoNotificacao', function () {
+    app.filter('classNotificacao', function () {
         return function (data) {
-            if(data == 'Cotação aberta')
+            if (data == 'Cotação aberta')
                 return 'fa left fa-clock-o';
-            else if(data == 'Cotação encerrada')
+            else if (data == 'Cotação encerrada')
                 return 'fa left fa-check';
-            else if(data == 'Chat')
+            else if (data == 'Mensagem no chat')
                 return 'fa left fa-comment';
-            else if(data == 'Leilão')
+            else if (data == 'Leilão')
                 return 'fa left fa-gavel';
         };
+    });
+
+    app.filter('yesNo', function () {
+        return function (data) {
+            return data ? 'sim' : 'não';
+        }
+    });
+
+    app.filter('dateRange', function () {
+        return function (records, from, to) {
+            return _.filter(records, function (record) {
+                return moment(record.dataCadastro).format('DD/MM/YYYY') >= from && moment(record.dataCadastro).format('DD/MM/YYYY') <= to;
+            });
+        }
     });
 
 })();

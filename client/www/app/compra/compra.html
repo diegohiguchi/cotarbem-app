@@ -1,0 +1,39 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="compra as vm">
+	<ion-nav-title>
+		Compras
+	</ion-nav-title>
+	<ion-nav-buttons>
+		<a class="button ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+	</ion-nav-buttons>
+	<ion-content>
+		<div class="center">
+            <ul class="list_default">
+                <li ng-show="vm.verificarTipoUsuario('cliente')" ng-repeat="compra in vm.comprasCliente">
+                    <a href="javascript:" ng-click="vm.compraClienteSelecionada(compra)">
+                        <p class="left">{{compra.fornecedor.displayName}}<span>{{ compra.produto.nome }}</span></p>
+                        <span class="right"><i class="fa fa-chevron-right"></i></span>
+                        <p class="right time done">{{compra.valorTotal}}</p>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+                <li ng-show="vm.verificarTipoUsuario('fornecedor')" ng-repeat="compra in vm.comprasFornecedor">
+                    <a href="javascript:" ng-click="vm.compraFornecedorSelecionada(compra)">
+                        <p class="left">{{compra.user.displayName}}<span>{{ compra.produto.nome }}</span></p>
+                        <span class="right"><i class="fa fa-chevron-right"></i></span>
+                        <p class="right time done">{{compra.valorTotal}}</p>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+	</ion-content>
+	<div class="bar bar-footer">
+		<ion-tabs class="tabs-positive tabs-icon-top">
+			<ion-tab title="Cliente" icon-on="ion-bag" ng-show="vm.usuario.cliente" icon-off="ion-bag" on-select="vm.mostrarNotificacao('cliente')">
+			</ion-tab>
+
+			<ion-tab title="Fornecedor" icon-on="ion-clipboard" ng-show="vm.usuario.fornecedor" icon-off="ion-clipboard" on-select="vm.mostrarNotificacao('fornecedor')">
+			</ion-tab>
+		</ion-tabs>
+	</div>
+</ion-view>

@@ -2,30 +2,20 @@
     'use strict';
     var controllerId = 'usuario.detalhar';
 
-    function usuarioDetalhar($location, $rootScope, services, autenticacao, load, $state, $timeout, $cordovaToast) {
+    angular.module('cotarApp').controller(controllerId, ['$location', '$rootScope', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', 'connection', usuarioDetalhar]);
+
+    function usuarioDetalhar($location, $rootScope, services, autenticacao, load, $state, $timeout, $cordovaToast, connection) {
         var vm = this;
         var usuario = {};
         vm.tipoUsuario = [];
-
-        function obterUsuario() {
-            vm.usuario = autenticacao.getUser();
-        }
+        vm.usuario = autenticacao.getUser();
 
         vm.editarUsuario = function () {
+            $state.go('app.usuarioEditar', { 'usuarioId': vm.usuario._id })
+        }
 
-            usuario = angular.toJson({
-                usuarioId: vm.usuario._id,
-                nome: vm.usuario.nome,
-                urlImagem: vm.usuario.urlImagem,
-                cnpj: vm.usuario.cnpj,
-                email: vm.usuario.email,
-                cep: vm.usuario.endereco.cep.toString(),
-                telefone: vm.usuario.telefone.toString(),
-                numero: vm.usuario.endereco.numero,
-                endereco: vm.usuario.endereco
-            });
-
-            $state.go('app.usuarioEditar', { 'usuario': usuario })
+        vm.editarEnderecamento = function () {
+            $state.go('app.usuarioEditarEnderecamento', { 'usuarioId': vm.usuario._id })
         }
 
         vm.logout = function () {
@@ -38,28 +28,46 @@
             load.hideLoading();
         };
 
-        vm.alterarNotificacao = function(device){
-            services.deviceTokenServices.editar(device).success(function(response){
-               vm.device = response.data;
+        vm.editarDevice = function (device) {
+            services.deviceServices.editar(device).success(function (response) {
+                vm.device = response;
             });
         }
 
-        function obterDevice(usuarioId){
+        // function obterImagemPerfil() {
+        //     if (vm.usuario.profileImageURL != undefined && vm.usuario.profileImageURL != '')
+        //         vm.imagemURL = connection.baseWeb() + "/" + vm.usuario.profileImageURL;
+        // }
+
+        function obterDevice(usuarioId) {
             load.showLoadingSpinner();
-            services.deviceTokenServices.obterPorUsuarioId(usuarioId).success(function(response){
-                vm.device = response.data;
+            services.deviceServices.obterPorUsuarioId(usuarioId).success(function (response) {
+                vm.device = response;
                 load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
+            });
+        }
+
+        function obterUsuario(usuarioId) {
+            load.showLoadingSpinner();
+            services.usuarioServices.obterPorId(usuarioId).success(function (response) {
+                vm.usuario = response;
+                localStorage.user = JSON.stringify(response);
+                //obterImagemPerfil();
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
         function activate() {
-            obterUsuario();
+            obterUsuario(vm.usuario._id);
             obterDevice(vm.usuario._id);
         }
 
         activate();
     }
-
-    angular.module('cotarApp').controller(controllerId, ['$location', '$rootScope', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', usuarioDetalhar]);
-
 })();

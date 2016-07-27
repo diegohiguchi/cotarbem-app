@@ -93,7 +93,7 @@ at the bottom as the textarea resizes */
     position: relative;
     height: 100%;
     width: 50px;
-    top: 7px;
+    /*top: 7px;*/
 }
 
 .footer-btn {
@@ -334,4 +334,31 @@ a.autolinker {
 }
 .btn_default::before{
     padding-right: 5px;
+}
+.tipoUsuario .item-checkbox .checkbox {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    left: 8px;
+    z-index: 3;
+    margin-top: -9px;
+}
+.tipoUsuario .checkbox{
+    padding: 0 10px;
+}
+.btn_tipoUsuario{
+    width: 100%;
+    padding-left: 5%;
+    height: 40px;
+    border-radius: 6px;
+    border: none;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+    color: #262626;
+    background: #fff;
+    text-align: left;
+}
+.alert-error-tipoUsuario i {
+    color: #fac200;
+    padding: 10px;
 }

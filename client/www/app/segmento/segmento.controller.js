@@ -2,7 +2,9 @@
     'use strict';
     var controllerId = 'segmento';
 
-    function segmento($ionicHistory, $rootScope, $location, services, $ionicModal, $scope, autenticacao, $ionicPopup, load) {
+    angular.module('cotarApp').controller(controllerId, ['$state', '$ionicHistory', '$rootScope', '$location', 'services', '$ionicModal', '$scope', 'autenticacao', '$ionicPopup', 'load', segmento]);
+
+    function segmento($state, $ionicHistory, $rootScope, $location, services, $ionicModal, $scope, autenticacao, $ionicPopup, load) {
         var vm = this;
         var segmentoSelecionado = [];
         vm.segmentos = [];
@@ -12,20 +14,28 @@
             $location.path('/app/login');
 
         function obterUsuarioLogado() {
+            load.showLoadingSpinner();
             services.usuarioServices.obterPorId(vm.usuario._id).success(function (response) {
-                vm.usuario = response.data;
+                vm.usuario = response;
                 localStorage.user = JSON.stringify(vm.usuario);
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
         function obterSegmentos() {
             services.segmentoServices.obterTodos().success(function (response) {
                 vm.segmentos = response;
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
-        vm.segmentoSelecionado = function(id){
-            $state.go('app.solicitacaoProduto', { 'id': id });
+        vm.segmentoSelecionado = function (id) {
+            $state.go('app.subSegmento', { 'segmentoId': id });
         };
 
         function activate() {
@@ -111,7 +121,5 @@
 
         activate();
     }
-
-    angular.module('cotarApp').controller(controllerId, ['$ionicHistory', '$rootScope', '$location', 'services', '$ionicModal', '$scope', 'autenticacao', '$ionicPopup', 'load', segmento]);
 
 })();

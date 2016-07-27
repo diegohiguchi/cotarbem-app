@@ -26,19 +26,25 @@
         }
 
         function adicionar(cotacao) {
-            return $http.post(connection.base() + '/cotacao/adicionar', cotacao);
+            //return $http.post(connection.base() + '/cotacao/adicionar', cotacao);
+            return $http.post(connection.baseWeb() + '/api/cotacoes', cotacao);
         }
 
         function editar(cotacao) {
-            return $http.post(connection.base() + '/cotacao/editar', cotacao);
+            //return $http.post(connection.base() + '/cotacao/editar', cotacao);
+            return $http.post(connection.baseWeb() + '/api/cotacoes/editar', cotacao);
         }
 
         function remover(id) {
             return $http.post(connection.base() + '/cotacao/remover/' + id);
         }
 
-        function obterCotacaoPorSolicitacaoEProduto(cotacao) {
-            return $http.post(connection.base() + '/cotacao/obterCotacaoPorSolicitacaoEProduto', cotacao);
+        function obterCotacaoPorSolicitacaoEUsuario(cotacao) {
+            return $http.post(connection.baseWeb() + '/api/cotacoes/obterCotacaoPorSolicitacaoEUsuario', cotacao);
+        }
+
+        function obterCotacoesPorSolicitacaoEProduto(cotacao) {
+            return $http.post(connection.baseWeb() + '/api/cotacoes/obterCotacoesPorSolicitacaoEProduto', cotacao);
         }
 
         function obterListaPorSolicitacaoId(id) {
@@ -62,7 +68,8 @@
             adicionar: adicionar,
             editar: editar,
             remover: remover,
-            obterCotacaoPorSolicitacaoEProduto: obterCotacaoPorSolicitacaoEProduto,
+            obterCotacaoPorSolicitacaoEUsuario: obterCotacaoPorSolicitacaoEUsuario,
+            obterCotacoesPorSolicitacaoEProduto: obterCotacoesPorSolicitacaoEProduto,
             obterListaPorSolicitacaoId: obterListaPorSolicitacaoId,
             obterListaCotacoesPorSolicitacoesId: obterListaCotacoesPorSolicitacoesId,
             obterListaCotacoesPorUsuarioId: obterListaCotacoesPorUsuarioId

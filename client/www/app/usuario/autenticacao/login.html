@@ -54,22 +54,22 @@
             <ion-content>
                 <div class="header">
                     <a class="button ion-chevron-left btn_back" ng-click="vm.fecharModalEsqueceuSenha()"></a>
-                    <h1>Esqueceu Senha?</h1>
+                    <h1>Esqueceu sua Senha?</h1>
                 </div>
 
                 <div class="form_padrao">
 
-                    <span>Informe seu endereço de e-mail e você receberá uma nova senha.</span>
+                    <span>Informe o usuário</span>
                 
                 <hr class="space">
                 
-                    <form name="formEsqueceuSenha" ng-submit="vm.enviarSenha(vm.email)">
+                    <form name="formEsqueceuSenha" ng-submit="vm.enviarSenha(vm.user)">
                         <div class="clear">
-                            <input class="email" type="email" placeholder="Endereço de E-mail" ng-model="vm.email" />
+                            <input class="email" type="text" placeholder="Usuário" ng-model="vm.user.username" />
                         </div>
                         <div class="clear">
-                            <input ng-class="!!vm.email ? 'btn_padrao' : 'btn_padrao_disabled'" type="submit" value="Enviar"
-                            ng-disabled="!vm.email" />
+                            <input ng-class="!!vm.user.username ? 'btn_padrao' : 'btn_padrao_disabled'" type="submit" value="Enviar"
+                            ng-disabled="!vm.user.username" />
                         </div>
                     </form>
                 </div>

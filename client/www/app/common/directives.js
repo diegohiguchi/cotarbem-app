@@ -32,43 +32,77 @@
                 var format = 'mm:ss a',  // date format
                     stopTime,
                     solicitacao,
-                    contador; // so that we can cancel the time updates
+                    contador;
+                var tempoEmSegundos;
 
                 function updateTime() {
 
-                    var novaData = new Date();
-                    novaData = moment(novaData).format('DD/MM/YYYY HH:mm:ss');
+                    // var novaData = new Date();
+                    // novaData = moment(novaData).format('DD/MM/YYYY HH:mm:ss');
 
-                    var diferencaData = moment.utc(moment(novaData, "DD/MM/YYYY HH:mm:ss").diff(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-                    var tempoEmSegundos = moment.duration(diferencaData).asSeconds();
+                    // var diferencaData = moment.utc(moment(novaData, "DD/MM/YYYY HH:mm:ss").diff(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+                    // var tempoEmSegundos = moment.duration(diferencaData).asSeconds();
 
-                    if (tempoEmSegundos <= 600) {
-                        var intervaloData = moment.utc(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss").diff(moment(novaData, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-                        contador = moment.utc(moment(intervaloData, "HH:mm:ss").diff(moment("23:50:00", "HH:mm:ss"))).format("mm:ss");
-                        //mytimeout = setTimeout(criarTemporizador(solicitacao), 1000);
-                        
+                    // if (tempoEmSegundos <= 600) {
+                    //     var intervaloData = moment.utc(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss").diff(moment(novaData, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
+                    //     contador = moment.utc(moment(intervaloData, "HH:mm:ss").diff(moment("23:50:00", "HH:mm:ss"))).format("mm:ss");
+                    //     //mytimeout = setTimeout(criarTemporizador(solicitacao), 1000);
+
+                    //     var progressBar = element.parent().find('div')[0];
+
+                    //     if (progressBar != undefined) {
+                    //         progressBar.style.width = (100 - ((tempoEmSegundos * 100) / 600)) + "%";
+                    //     }
+
+                    tempoEmSegundos = tempoEmSegundos || solicitacao.tempoEmSegundos;
+                    var tempoCotacao = solicitacao.tempo * 3600;
+
+                    if (tempoEmSegundos <= tempoCotacao) {
+                        contador = (tempoCotacao - tempoEmSegundos);
+
+                        var seconds = Math.floor(contador);
+                        var hours = Math.floor(seconds / 3600);
+                        seconds -= hours * 3600;
+                        var minutes = Math.floor(seconds / 60);
+                        seconds -= minutes * 60;
+
+                        if (hours < 10) { hours = "0" + hours; }
+                        if (minutes < 10) { minutes = "0" + minutes; }
+                        if (seconds < 10) { seconds = "0" + seconds; }
+
+                        contador = hours + ":" + minutes + ":" + seconds;
+
                         var progressBar = element.parent().find('div')[0];
 
                         if (progressBar != undefined) {
-                            progressBar.style.width = (100 - ((tempoEmSegundos * 100) / 600)) + "%";
+                            progressBar.style.width = (100 - ((tempoEmSegundos * 100) / tempoCotacao)) + "%";
                         }
+
+                        tempoEmSegundos++;
 
                     } else if (solicitacao.ativo) {
                         solicitacao.ativo = false;
+
                         services.solicitacaoServices.editar(solicitacao).success(function (response) {
                             $interval.cancel(stopTime);
                         }).then(function () {
                             var device = {};
                             device = {
-                                usuarioId: solicitacao.usuarioId,
+                                usuarioId: solicitacao.user._id,
                                 titulo: 'Cotar Bem',
                                 mensagem: 'Cotação encerrada'
                             }
 
-                            services.deviceTokenServices.notificar(device).success(function (response) {
+                            services.notificacaoServices.notificarCliente(solicitacao).success(function (response) {
+                            }).error(function (err, statusCode) {
+                                load.hideLoading();
+                                load.toggleLoadingWithMessage(err.message);
+                            }).then(function () {
+                                services.deviceServices.notificar(device).success(function (response) {
+                                });
                             });
 
-                            solicitacao.url = "app/cotacao/solicitacao/produto/notificacao/solicitacaoId?id=";
+                            solicitacao.url = "app/cotacao/cliente/produto/" + solicitacao._id;
 
                             socket.emit('cotacao-encerrada', solicitacao);
                         });
@@ -97,80 +131,15 @@
             }
         }]);
 
-    app.directive('myCurrentAllTime', ['socket', '$interval', 'dateFilter', 'services',
-        function (socket, $interval, dateFilter, services) {
-            socket.connect();
-            
-            // return the directive link function. (compile function not needed)
-            return function (scope, element, attrs) {
-                var format = 'mm:ss a',  // date format
-                    stopTime,
-                    solicitacao,
-                    contador; // so that we can cancel the time updates
-
-                function updateTime() {
-
-                    var novaData = new Date();
-                    novaData = moment(novaData).format('DD/MM/YYYY HH:mm:ss');
-
-                    var diferencaData = moment.utc(moment(novaData, "DD/MM/YYYY HH:mm:ss").diff(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-                    var tempoEmSegundos = moment.duration(diferencaData).asSeconds();
-
-                    if (tempoEmSegundos <= 600) {
-                        var intervaloData = moment.utc(moment(solicitacao.dataCadastro, "DD/MM/YYYY HH:mm:ss").diff(moment(novaData, "DD/MM/YYYY HH:mm:ss"))).format("HH:mm:ss");
-                        contador = moment.utc(moment(intervaloData, "HH:mm:ss").diff(moment("23:50:00", "HH:mm:ss"))).format("mm:ss");
-                        //mytimeout = setTimeout(criarTemporizador(solicitacao), 1000);
-                        
-                        var progressBar = element.parent().find('div')[0];
-
-                        if (progressBar != undefined) {
-                            progressBar.style.width = (100 - ((tempoEmSegundos * 100) / 600)) + "%";
-                        }
-
-                    } else if (solicitacao.ativo) {
-                        solicitacao.ativo = false;
-                        services.solicitacaoServices.editar(solicitacao).success(function (response) {
-                            $interval.cancel(stopTime);
-                        }).then(function () {
-                            var device = {};
-                            device = {
-                                usuarioId: solicitacao.usuarioId,
-                                titulo: 'Cotar Bem',
-                                mensagem: 'Cotação encerrada'
-                            }
-
-                            services.deviceTokenServices.notificar(device).success(function (response) {
-                            });
-
-                            solicitacao.url = "app/cotacao/solicitacao/produto/notificacao/solicitacaoId?id=";
-
-                            socket.emit('cotacao-encerrada', solicitacao);
-
-                        });
-
-                    } else {
-                        $interval.cancel(stopTime);
-                    }
-
-                    //element.text(dateFilter(contador, format));
-                }
-
-                // watch the expression, and update the UI on change.
-                scope.$watch(attrs.myCurrentAllTime, function (value) {
-                    ///format = value;
-                    solicitacao = value;
-                    updateTime();
-                });
-
-                stopTime = $interval(updateTime, 1000);
-
-                // listen on DOM destroy (removal) event, and cancel the next UI update
-                // to prevent updating time after the DOM element was removed.
-                element.on('$destroy', function () {
-                    $interval.cancel(stopTime);
+    app.directive('focusMe', function ($timeout) {
+        return {
+            link: function (scope, element, attrs) {
+                $timeout(function () {
+                    element[0].focus();
                 });
             }
-        }]);
+        };
+    });
 
     app.directive('obterNome', ['services',
         function (services) {
@@ -359,4 +328,20 @@
             });
         };
     });
+
+    app.directive('badge', ['autenticacao',
+        function (autenticacao) {
+            return {
+                link: function (scope, element, attrs) {
+                    var usuarioLogado = autenticacao.getUser();
+
+                    scope.$watch(attrs.badge, function (value) {
+                        var usuario = value.visualizacao.user == usuarioLogado._id ? true : false;
+
+                        if (usuario && value.visualizacao.ativo)
+                            element.addClass('badge-chat');
+                    });
+                }
+            }
+        }]);
 })()

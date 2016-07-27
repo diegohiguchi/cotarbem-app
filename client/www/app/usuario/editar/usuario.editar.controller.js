@@ -2,73 +2,40 @@
     'use strict';
     var controllerId = 'usuario.editar';
 
-    function usuarioEditar(connection, $cordovaFileTransfer, $location, $ionicHistory, $cordovaCamera, $ionicPopup, services, autenticacao, load, $state, $timeout, $cordovaToast) {
+    angular.module('cotarApp').controller(controllerId, ['$scope', 'connection', '$cordovaFileTransfer', '$location', '$ionicHistory', '$cordovaCamera', '$ionicPopup', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', usuarioEditar]);
+
+    function usuarioEditar($scope, connection, $cordovaFileTransfer, $location, $ionicHistory, $cordovaCamera, $ionicPopup, services, autenticacao, load, $state, $timeout, $cordovaToast) {
         var vm = this;
         vm.mensagem = '';
-        vm.tipoUsuario = [{ tipoUsuarioId: 1, nome: 'Cliente' }, { tipoUsuarioId: 2, nome: 'Fornecedor' }];
-        vm.usuario = angular.fromJson($state.params.usuario);
+        //vm.tipoUsuario = [{ tipoUsuarioId: 1, nome: 'Cliente' }, { tipoUsuarioId: 2, nome: 'Fornecedor' }];
+        var usuarioId = $state.params.usuarioId;
 
-        // function obterTodosTiposUsuarios() {
-        //     load.showLoadingSpinner();
-        //     services.tipoUsuarioServices.obterTodos().success(function (response) {
-        //         vm.tipoUsuario = _.reject(response.data, function (usuario) { return usuario.nome == 'Administrador'; });
-        //         load.hideLoading();
-        //     }).error(function (err, statusCode) {
-        //         load.hideLoading();
-        //         load.toggleLoadingWithMessage(err.message);
-        //     });
-        // }
-
-        vm.buscarCep = function (cep) {
-            if (cep == undefined) {
-                vm.usuario.endereco = {};
-                vm.usuario.cep = '';
-                vm.mensagem = '';
-                return;
-            }
-
-            load.showLoadingSpinner();
-            services.localizacaoServices.obterCep(cep).success(function (response) {
-                vm.mensagem = '';
-                vm.usuario.endereco = response.data;
-                load.hideLoading();
-            }).error(function (err, statusCode) {
-                vm.usuario.endereco = {};
-                vm.mensagem = err.message;
-                load.hideLoading();
-            });
+        vm.voltarPagina = function () {
+            $ionicHistory.goBack();
         }
 
         vm.showPopup = function () {
-            var myPopup = $ionicPopup.show({
-                //templateUrl: 'popupImagem.html',
+            vm.myPopup = $ionicPopup.show({
+                template: '<button ng-click="vm.tirarFoto()" class="button icon-left ion-camera button-clear button-dark">C&acirc;mera</button>' +
+                '<button ng-click="vm.selecionarFoto()" class="button icon-left ion-android-list button-clear button-dark">Documentos</button>',
                 title: 'Escolher imagem',
-                cssClass: '.popup-buttons .button',
-                buttons: [{ // Array[Object] (optional). Buttons to place in the popup footer.
-                    text: 'C&acirc;mera',
-                    type: 'button icon-left ion-camera button-clear button-dark',
-                    onTap: function (e) {
-                        // e.preventDefault() will stop the popup from closing when tapped.
-                        return vm.tirarFoto();
-                    }
-                }, {
-                        text: 'Documentos',
-                        type: 'button icon-left ion-android-list button-clear button-dark',
-                        onTap: function (e) {
-                            // Returning a value will cause the promise to resolve with the given value.
-                            return vm.selecionarFoto();
-                        }
-                    }]
+                scope: $scope,
+                buttons: [
+                    { text: 'Cancelar' },
+                ]
             });
         };
 
         function obterImagem(options) {
+            // load.showLoadingSpinner();
+
             $cordovaCamera.getPicture(options).then(function (sourcePath) {
                 var sourceDirectory = sourcePath.substring(0, sourcePath.lastIndexOf('/') + 1);
                 var sourceFileName = sourcePath.substring(sourcePath.lastIndexOf('/') + 1, sourcePath.length);
-                
+
                 // Destination URL 
-                var url = connection.baseWeb() + "/api/solicitacoes/cliente/uploadImages";
+                //var url = connection.baseWeb() + "/api/solicitacoes/cliente/uploadImages";
+                var url = connection.baseWeb() + "/api/users/editarImagemPerfil";
 
                 //File for Upload
                 var targetPath = cordova.file.dataDirectory + sourceFileName;
@@ -77,7 +44,7 @@
                 var filename = targetPath.split("/").pop();
 
                 var options = {
-                    fileKey: "novaImagemProduto",
+                    fileKey: "newProfilePicture",
                     fileName: filename,
                     chunkedMode: false,
                     mimeType: "image/jpeg",
@@ -85,11 +52,17 @@
                 };
 
                 $cordovaFileTransfer.upload(url, sourcePath, options).then(function (result) {
-                    console.log("SUCCESS: " + JSON.stringify(result.response));
-                    var file = JSON.parse(result.response).message.split(".")[1];
-                    vm.usuario.urlImagem = connection.baseWeb() + file;
+                    vm.myPopup.close();
+                    vm.usuario.profileImageURL = JSON.parse(result.response).message;
+
+                    // var file = JSON.parse(result.response).message.split("./")[1];
+                    // vm.file = file;
+                    // vm.imagemURL = connection.baseWeb() + "/" + file;
+
+                    // load.hideLoading();
                 }, function (err) {
                     console.log("ERROR: " + JSON.stringify(err));
+                    // load.hideLoading();
                 }, function (progress) {
                     // PROGRESS HANDLING GOES HERE
                 });
@@ -134,8 +107,8 @@
             obterImagem(options);
         }
 
-        function editadoComSucesso() {
-            load.showLoading('Usuário editado com sucesso.');
+        function salvoComSucesso() {
+            load.showLoading('Salvo com sucesso');
 
             $timeout(function () {
                 load.hideLoading();
@@ -143,45 +116,53 @@
             }, 2000);
         }
 
-        function adicionarEndereco(usuario) {
-            return {
-                cep: usuario.cep,
-                logradouro: usuario.endereco.logradouro,
-                bairro: usuario.endereco.bairro,
-                cidade: usuario.endereco.cidade,
-                estado: usuario.endereco.estado,
-                numero: usuario.numero
-            }
+        function adicionarTipoDocumento(usuario) {
+            if (usuario.numeroDocumento.length == 11)
+                vm.usuario.tipoDocumento = 'CPF';
+            else
+                vm.usuario.tipoDocumento = 'CNPJ';
         }
 
-        vm.editarUsuario = function (usuario) {
-            if (vm.mensagem != '')
-                return;
+        vm.editarUsuario = function (isValid) {
+            if (!isValid)
+                return false;
 
             load.showLoadingSpinner();
-            usuario.endereco = adicionarEndereco(usuario);
+            adicionarTipoDocumento(vm.usuario);
+            //vm.usuario.profileImageURL = vm.file != undefined ? vm.file : vm.usuario.profileImageURL;
 
-            services.usuarioServices.editar(usuario).success(function (response) {
-                localStorage.user = JSON.stringify(response.data);
-                editadoComSucesso();
+            services.usuarioServices.editar(vm.usuario).success(function (response) {
+                localStorage.user = JSON.stringify(response);
+                salvoComSucesso();
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
             });
         }
 
-        vm.voltarPagina = function () {
-            $ionicHistory.goBack();
+        // function obterImagemPerfil() {
+        //     if (vm.usuario.profileImageURL != undefined && vm.usuario.profileImageURL != '')
+        //         vm.imagemURL = connection.baseWeb() + "/" + vm.usuario.profileImageURL;
+        // }
+
+        function obterUsuario(usuarioId) {
+            load.showLoadingSpinner();
+            services.usuarioServices.obterPorId(usuarioId).success(function (response) {
+                vm.usuario = response;
+                //obterImagemPerfil();
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
+            });
         }
 
         function activate() {
-            //obterTodosTiposUsuarios();
+            obterUsuario(usuarioId);
         }
 
         activate();
     }
-
-    angular.module('cotarApp').controller(controllerId, ['connection', '$cordovaFileTransfer', '$location', '$ionicHistory', '$cordovaCamera', '$ionicPopup', 'services', 'autenticacao', 'load', '$state', '$timeout', '$cordovaToast', usuarioEditar]);
 
 })();
 

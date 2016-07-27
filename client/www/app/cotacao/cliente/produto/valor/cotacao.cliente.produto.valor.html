@@ -1,0 +1,67 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="cotacao.cliente.produto.valor as vm">
+    <ion-nav-title>
+        Cotações - {{vm.cotacao.produto.nome}}
+    </ion-nav-title>
+    <ion-nav-buttons>
+        <a class="button ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="center cotacao_view">
+            <div class="head_info">
+                <div class="imagem">
+
+                    <span ng-if="vm.cotacao.produto.imagemURL == null || vm.cotacao.produto.imagemURL == ''">
+					   <img src="img/placehold_image.png" />
+                    </span>
+                    <span ng-if="vm.cotacao.produto.imagemURL != null && vm.cotacao.produto.imagemURL != ''">
+                        <a href="javascript:" ng-click="vm.ampliarImagem('zoomIn')">
+					        <img ng-src="{{vm.cotacao.produto.imagemURL}}" class="imagem-leilao"/>
+                        </a>
+                    </span>
+                </div>
+                <p class="title cor_default">{{vm.cotacao.produto.nome}}</p>
+                <span><strong>Código de Barras:</strong> {{vm.cotacao.produto.codigo}}</span>
+                <span><strong>Unidade de Medida:</strong> {{vm.cotacao.produto.unidadeMedida}}</span>
+                <span><strong>Quantidade:</strong> {{vm.cotacao.produto.quantidade}}</span>
+                <span><strong>Data de entrega:</strong> {{vm.cotacao.produto.dataEntrega | date:"MM/dd/yyyy"}}</span>
+
+                <!--<hr class="space" />
+
+                <span ng-show="!vm.mostraDescricao">{{vm.cotacao.produto.observacao | cut:true:110:' ...'}} 
+                    <a href="javascript:" ng-show="vm.cotacao.produto.observacao.length > 100" ng-click="vm.mostraDescricao = !vm.mostraDescricao">+ ver mais</a>
+                </span>
+                <span ng-show="!!vm.mostraDescricao">{{vm.cotacao.produto.observacao}} 
+                    <a href="javascript:" ng-click="vm.mostraDescricao = !vm.mostraDescricao">- ver menos</a>
+                </span>-->
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <!--<p class="melhores"><i class="fa fa-star"></i> MELHOR COTAÇÃO:</p>-->
+
+        <!--<ul class="list_leilao" ng-show="!!vm.cotacoes">
+            <li ng-repeat="cotacao in vm.cotacoes | orderBy:'produto.valor' track by $index" class="{{$index | posicao}}">
+                <span class="left"><i class="fa fa-trophy"></i></span>
+                <span class="left">{{cotacao.usuario.displayName}}</span>
+                <span class="right melhores_cotacoes_icone"><i class="fa fa-chevron-right"></i></span>
+                <span class="right">{{cotacao.produto.valor * cotacao.produto.quantidade | currency}}</span>
+            </li>
+        </ul>-->
+
+        <ul class="list_leilao">
+            <li ng-repeat="cotacao in vm.cotacoes | orderBy:'produto.valor' track by $index">
+                <a class="list_color" href="javascript:" ng-click="vm.detalharCotacaoProduto(cotacao)">
+                    <p class="left"><i class="fa fa-user" aria-hidden="true"></i> {{cotacao.usuario.displayName}}
+                    </p>
+                    <span class="right melhores_cotacoes_icone cotacao_valor"><i class="fa fa-chevron-right icon_rigth"></i></span>
+                    <p class="right cotacao_valor"> {{cotacao.produto.valor * cotacao.produto.quantidade | currency}}</p>
+                    <div class="clear"></div>
+                </a>
+            </li>
+            <hr class="space">
+            <p ng-show="!vm.cotacoes.length" class="italic center">Não houve cotações</p>
+        </ul>
+    </ion-content>
+</ion-view>

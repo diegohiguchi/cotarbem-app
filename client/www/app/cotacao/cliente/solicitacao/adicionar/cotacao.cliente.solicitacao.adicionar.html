@@ -1,0 +1,197 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="cotacao.cliente.solicitacao.adicionar as vm">
+    <ion-nav-title>
+        Nova Cotação
+    </ion-nav-title>
+    <!--<ion-nav-buttons side="left">
+        <a class="button icon-left ion-chevron-left button-clear" ng-href="#" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>-->
+    <ion-content>
+        <form novalidate name="formSolicitacao" ng-submit="formSolicitacao.$valid && vm.salvarSolicitacao(vm.solicitacao, vm.produtos)">
+            <div class="form_padrao center">
+                <div class="clear">
+                    <!--<input name="titulo" ng-class="vm.solicitacao.titulo | checked" ng-model="vm.solicitacao.titulo" type="text" placeholder="Título da Cotação *"
+                    required/>
+                    <input type="hidden" ng-model="vm.solicitacao.usuarioId">
+                    <input type="hidden" ng-model="vm.solicitacao.categoriaId">-->
+                    <select name="segmento" id="segmento" ng-class="form-control" ng-model="vm.solicitacao.segmento" ng-options="segmentos.nome for segmentos in vm.segmentos"
+                        required ng-change="vm.filtrarSubSegmentosPorSegmento(vm.solicitacao.segmento)">
+                        <option value="">Selecione o Segmento *</option>
+                    </select>
+                </div>
+                <div class="clear">
+                    <select name="subSegmento" id="subSegmento" class="form-control" ng-model="vm.solicitacao.subSegmento" ng-options="subSegmentos.nome for subSegmentos in vm.subSegmentos"
+                        required ng-disabled="vm.solicitacao.segmento == undefined">
+                        <option value="">Selecione o Sub-segmento *</option>
+                    </select>
+                </div>
+                <div class="clear">
+                    <input name="tempo" type="number" placeholder="Tempo da Cotação em Hora(s) * " min="1" max="72" ng-model="vm.solicitacao.tempo"
+                        id="tempo" class="form-control" required>
+                </div>
+            </div>
+
+            <ul class="list_default normal" ng-show="vm.produtos.length > 0">
+                <li ng-repeat="item in vm.produtos">
+                    <a href="#" ng-click="vm.editarItem(item)">
+                        <p class="left">{{item.nome}}<i class="fa fa-check done"></i></p>
+                        <span class="right"><i class="fa fa-chevron-right"></i></span>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="center">
+                <a href="#" class="add_item" ng-click="vm.abrirModalSolicitacaoCadastroItem()">
+                    <i class="fa fa-plus-square-o"></i>
+                </a>
+                <p></p>
+                <p class="adicionar_item">Adicionar Item</p>
+            </div>
+
+            <div class="error-left" ng-show="formSolicitacao.$submitted">
+                <div ng-messages="formSolicitacao.$error">
+                    <div ng-messages-include="error-list-solicitacao.html"></div>
+                </div>
+
+            </div>
+
+            <div class="error-left" ng-show="!!vm.mensagem">
+                <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    {{vm.mensagem}}
+                </span>
+            </div>
+
+            <div class="form_padrao center">
+                <div class="clear">
+                    <!--<input ng-class="vm.produtos.length > 0 && !!vm.solicitacao.titulo ? 'btn_padrao' : 'btn_padrao_disabled'" ng-disabled="vm.produtos.length <= 0 && !vm.titulo"-->
+                    <input ng-class="'btn_padrao'" type="submit" value="COTAR BEM!" />
+                </div>
+            </div>
+
+            <script id="error-list-solicitacao.html" type="text/ng-template">
+                <div ng-message="required">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i> Informe os campos com asterisco (*)
+                    </span>
+                </div>
+                <div ng-message="min">
+                    <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Informe o tempo de cotação
+                            </span>
+                </div>
+                <div ng-message="max">
+                    <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Tempo máximo é de 72 horas
+                            </span>
+                </div>
+            </script>
+        </form>
+    </ion-content>
+
+    <script id="solicitacaoCadastroItem.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-content>
+                <div class="header">
+                    <h1>Cadastrar Novo Item</h1>
+                    <a href="#" class="" ng-click="vm.fecharModalSolicitacaoCadastroItem()">
+                        <span class="notify">
+				        <i class="fa fa-times"></i>
+                    </span>
+                    </a>
+                </div>
+
+                <form novalidate name="formCadastroItem" ng-submit="formCadastroItem.$valid && vm.cadastrarItem(vm.cadastro, formCadastroItem)">
+                    <div class="form_padrao">
+                        <div class="center header_camera form-camera">
+                            <a class="icon_cadastro image-background" style="background-image: url('{{vm.imagemURL}}');" ng-href="javascript:"
+                                ng-click="vm.showPopup()">
+                                <img ng-if="!vm.imagemURL" class="imagem-adicionar" src="img/placehold_image_add.png"/>
+                                <!--<i ng-hide="!!vm.imagemURL" class="fa fa-camera"></i>-->
+                            </a>
+
+                            <!--<hr class="space">-->
+                            <br>
+                        </div>
+                        <div class="clear">
+                            <input class="" name="nome" type="text" ng-model="vm.cadastro.nome" placeholder="Nome do Produto *" required/>
+                        </div>
+                         <div class="clear-valor">
+                            <input class="" name="codigo" type="text" ng-model="vm.codigoBarras" placeholder="Código de Barras"/>
+                            <button class="btn_padrao_item" type="button" ng-click="vm.buscarCodigoBarras()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="clear">
+                            <input class="" name="unidadeMedida" type="text" ng-model="vm.cadastro.unidadeMedida" placeholder="Unidade de Medida * Ex.: Caixa, Unidade, kg, m²" required/>
+                        </div>
+                        <div class="clear">
+                            <input type="number" min="1" name="quantidade" ng-model="vm.cadastro.quantidade" placeholder="Quantidade *" required />
+                        </div>
+                        <div class="clear">
+                            <input type="text" placeholder="Data de entrega *" name="dataEntrega" onfocus="(this.type='date')" ng-model="vm.cadastro.dataEntrega" required />
+                        </div>
+                        <div class="clear">
+                            <textarea name="observacao" class="textarea-observacao" row="3" maxlength="300" ng-model="vm.cadastro.observacao" placeholder="Observação"></textarea>
+                        </div>
+
+                        <div class="clear" ng-show="formCadastroItem.$submitted">
+                            <div ng-messages="formCadastroItem.$error">
+                                <div ng-messages-include="error-list.html"></div>
+                            </div>
+
+                            <hr class="space">
+
+                        </div>
+
+                        <div class="clear">
+                            <input class="btn_padrao" type="submit" value="ADICIONAR" />
+                        </div>
+                    </div>
+
+                    <script id="error-list.html" type="text/ng-template">
+                        <div ng-message="required">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Informe os campos com asterisco (*)
+                            </span>
+                        </div>
+                        <div ng-message="minlength">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Informe senha com pelo menos 3 caracteres
+                            </span>
+                        </div>
+                        <div ng-message="maxlength">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Tamanho máximo no campo nome é de 60 caracteres
+                            </span>
+                        </div>
+                    </script>
+
+    <!--<span class="center">
+				    <ul class="list_doit">
+					   <li>
+						<a class="choose" href="#" ng-click="vm.tirarFoto()">
+							<span class="">
+								<i class="fa fa-camera"></i>
+							</span>
+                        </a>
+                        </li>
+                        <li>
+                            <a class="" href="#" ng-click="vm.selecionarFoto()">
+                                <span class="">
+								<i class="fa fa-paperclip"></i>
+							</span>
+                            </a>
+                        </li>
+                        </ul>
+
+                        </span>-->
+
+    <!--<div class="form_padrao center">
+                            <div class="clear">
+                                <input class="btn_padrao" type="submit" value="ADICIONAR" />
+                            </div>
+                        </div>-->
+    </form>
+    </ion-content>
+    </ion-modal-view>
+    </script>
+</ion-view>

@@ -72,6 +72,7 @@
     <script src="app/usuario/usuario.controller.js"></script>
     <script src="app/usuario/autenticacao/login.controller.js"></script>
     <script src="app/usuario/editar/usuario.editar.controller.js"></script>
+    <script src="app/usuario/editar/enderecamento/usuario.editar.enderecamento.controller.js"></script>
     <script src="app/usuario/adicionar/usuario.adicionar.controller.js"></script>
     <script src="app/usuario/detalhar/usuario.detalhar.controller.js"></script>
     <script src="app/usuario/localizacao/usuario.localizacao.controller.js"></script>
@@ -81,18 +82,24 @@
     <script src="app/categoria/adicionar/categoria.adicionar.controller.js"></script>
     <script src="app/categoria/editar/categoria.editar.controller.js"></script>
     <script src="app/categoria/remover/categoria.remover.controller.js"></script>
-    <script src="app/cotacao/dashboard/cliente/cotacao.dashboard.cliente.controller.js"></script>
-    <script src="app/cotacao/dashboard/fornecedor/cotacao.dashboard.fornecedor.controller.js"></script>
-    <script src="app/cotacao/solicitacao/cliente/cotacao.solicitacao.cliente.controller.js"></script>
-    <script src="app/cotacao/solicitacao/fornecedor/cotacao.solicitacao.fornecedor.controller.js"></script>
-    <script src="app/cotacao/solicitacao/cliente/cadastro/cotacao.solicitacao.cliente.cadastro.controller.js"></script>
-    <script src="app/cotacao/solicitacao/produto/cotacao.solicitacao.produto.controller.js"></script>
-    <script src="app/cotacao/solicitacao/produto/detalhar/cotacao.solicitacao.produto.detalhar.controller.js"></script>
-    <script src="app/cotacao/solicitacao/produto/leilao/cotacao.solicitacao.produto.leilao.controller.js"></script>
-    <script src="app/cotacao/notificacao/cliente/cotacao.notificacao.cliente.controller.js"></script>
-    <script src="app/cotacao/notificacao/fornecedor/cotacao.notificacao.fornecedor.controller.js"></script>
+    <!--<script src="app/cotacao/dashboard/cliente/cotacao.dashboard.cliente.controller.js"></script>
+    <script src="app/cotacao/dashboard/fornecedor/cotacao.dashboard.fornecedor.controller.js"></script>-->
+    <script src="app/cotacao/fornecedor/cotacao.fornecedor.controller.js"></script>
+    <script src="app/cotacao/fornecedor/produto/cotacao.fornecedor.produto.controller.js"></script>
+    <script src="app/cotacao/fornecedor/produto/valor/cotacao.fornecedor.produto.valor.controller.js"></script>
+    <script src="app/cotacao/fornecedor/produto/valor/detalhar/cotacao.fornecedor.produto.valor.detalhar.controller.js"></script>
+    <script src="app/cotacao/cliente/cotacao.cliente.controller.js"></script>
+    <script src="app/cotacao/cliente/solicitacao/adicionar/cotacao.cliente.solicitacao.adicionar.controller.js"></script>
+    <script src="app/cotacao/cliente/produto/cotacao.cliente.produto.controller.js"></script>
+    <script src="app/cotacao/cliente/produto/valor/cotacao.cliente.produto.valor.controller.js"></script>
+    <script src="app/cotacao/cliente/produto/valor/detalhar/cotacao.cliente.produto.valor.detalhar.controller.js"></script>
+    <script src="app/notificacao/notificacao.controller.js"></script>
+    <script src="app/compra/compra.controller.js"></script>
+    <script src="app/compra/cliente/compra.cliente.controller.js"></script>
+    <script src="app/compra/fornecedor/compra.fornecedor.controller.js"></script>
     <script src="app/sala/sala.controller.js"></script>
-    <script src="app/sala/chat/chat.controller.js"></script>
+    <script src="app/sala/chat/sala.chat.controller.js"></script>
+    <script src="app/sala/chat/detalhar/sala.chat.detalhar.controller.js"></script>
     <script src="app/services/usuario/autenticacao/loginServices.js"></script>
     <script src="app/services/usuario/tipoUsuario/tipoUsuarioServices.js"></script>
     <script src="app/services/cotacao/cotacaoServices.js"></script>
@@ -103,7 +110,7 @@
     <script src="app/services/solicitacao/solicitacaoServices.js"></script>
     <script src="app/services/produto/produtoServices.js"></script>
     <script src="app/services/requestsServices.js"></script>
-    <script src="app/services/deviceToken/deviceTokenServices.js"></script>
+    <script src="app/services/device/deviceServices.js"></script>
     <script src="app/services/sala/salaServices.js"></script>
     <script src="app/services/avaliacao/avaliacaoServices.js"></script>
     <script src="app/services/denuncia/denunciaServices.js"></script>
@@ -111,6 +118,12 @@
     <script src="app/services/localizacao/localizacaoServices.js"></script>
     <script src="app/services/notificacao/notificacaoServices.js"></script>
     <script src="app/services/dashboard/dashboardServices.js"></script>
+    <script src="app/services/plano/planoServices.js"></script>
+    <script src="app/services/pedido/pedidoServices.js"></script>
+    <script src="app/services/enderecamento/enderecamentoServices.js"></script>
+    <script src="app/services/cidade/cidadeServices.js"></script>
+    <script src="app/services/estado/estadoServices.js"></script>
+    <script src="app/services/compra/compraServices.js"></script>
     <script src="app/services/socketFactory.js"></script>
     <script src="app/services/services.js"></script>
     <script src="app/common/load.js"></script>
@@ -119,7 +132,7 @@
     <script src="app/autenticacao.js"></script>
     <script src="app/interceptor.js"></script>
     <script src="app/connection.js"></script>
-    <script src="app/deviceToken.js"></script>
+    <script src="app/device.js"></script>
 </head>
 
 <body ng-app="cotarApp">

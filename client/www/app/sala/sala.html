@@ -12,14 +12,42 @@
     <ion-content delegate-handle="userMessageScroll">
         <div class="center">
             <ul class="list_default">
-                <li ng-repeat="sala in vm.salas | orderBy:'-dataCadastro'">
-                    <a href="javascript:" ng-click="vm.salaSelecionada(sala)">
-                        <p class="left">{{ sala.solicitacao.titulo }}<span>{{sala.produto.nome}}</span></p>
+                <!--<li>
+                    <a href="javascript:">
+                        <p class="left">Teste<span>frederico</span></p>
+                         <div class="badge-chat"></div>
                         <span class="right"><i class="fa fa-chevron-right"></i></span>
+                        <div class="clear"></div>
+                    </a>
+                </li>-->
+                <li ng-show="vm.verificarTipoUsuario('cliente')" ng-repeat="sala in vm.salasCliente | orderBy:dataAtualizacao">
+                    <a href="javascript:" ng-click="vm.salaSelecionada(sala)">
+                        <input type="hidden" ng-model="sala.tipoUsuario" ng-init="sala.tipoUsuario='Cliente'">
+                        <p class="left">{{ sala.produto.nome }}<span>{{sala.user.displayName}}</span></p>
+                        <span class="right badge-right"><i class="fa fa-chevron-right"></i></span>
+                        <span id="badge" badge="sala"></span>
+                        <div class="clear"></div>
+                    </a>
+                </li>
+                <li ng-show="vm.verificarTipoUsuario('fornecedor')" ng-repeat="sala in vm.salasFornecedor | orderBy:dataAtualizacao">
+                    <a href="javascript:" ng-click="vm.salaSelecionada(sala)">
+                        <input type="hidden" ng-model="sala.tipoUsuario" ng-init="sala.tipoUsuario='Fornecedor'">
+                        <p class="left">{{ sala.produto.nome }}<span>{{sala.solicitacao.user.displayName}}</span></p>
+                        <span class="right badge-right"><i class="fa fa-chevron-right"></i></span>
+                        <span id="badge" badge="sala"></span>
                         <div class="clear"></div>
                     </a>
                 </li>
             </ul>
         </div>
     </ion-content>
+    <div class="bar bar-footer">
+		<ion-tabs class="tabs-positive tabs-icon-top">
+			<ion-tab title="Cliente" icon-on="ion-chatbubbles" ng-show="vm.usuario.cliente" icon-off="ion-chatbubbles" on-select="vm.mostrarSala('cliente')">
+			</ion-tab>
+
+			<ion-tab title="Fornecedor" icon-on="ion-chatbubbles" ng-show="vm.usuario.fornecedor" icon-off="ion-chatbubbles" on-select="vm.mostrarSala('fornecedor')">
+			</ion-tab>
+		</ion-tabs>
+	</div>
 </ion-view>

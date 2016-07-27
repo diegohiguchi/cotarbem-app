@@ -2,25 +2,33 @@
     'use strict';
     var controllerId = 'subSegmento';
 
-    function subSegmento($ionicHistory, $rootScope, $location, services, $ionicModal, $scope, autenticacao, $ionicPopup, load) {
+    angular.module('cotarApp').controller(controllerId, ['$state', '$ionicHistory', '$rootScope', '$location', 'services', '$ionicModal', '$scope', 'autenticacao', '$ionicPopup', 'load', subSegmento]);
+
+    function subSegmento($state, $ionicHistory, $rootScope, $location, services, $ionicModal, $scope, autenticacao, $ionicPopup, load) {
         var vm = this;
         var subSegmentoSelecionado = [];
         vm.subSegmentos = [];
         vm.usuario = autenticacao.getUser();
+        var segmentoId = $state.params.segmentoId;
 
         if (!$rootScope.isAuthenticated)
             $location.path('/app/login');
 
         function obterUsuarioLogado() {
+            load.showLoadingSpinner();
             services.usuarioServices.obterPorId(vm.usuario._id).success(function (response) {
-                vm.usuario = response.data;
+                vm.usuario = response;
                 localStorage.user = JSON.stringify(vm.usuario);
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
-        function obterSegmentos() {
-            services.subSegmentoServices.obterTodos().success(function (response) {
-                var subSegmentos = response.data;
+        function obterSubsegmentosPorSegmentoId(segmentoId) {
+            load.showLoadingSpinner();
+            services.subSegmentoServices.obterSubsegmentosPorSegmentoId(segmentoId).success(function (response) {
+                var subSegmentos = response;
                 vm.subSegmentos = [];
 
                 subSegmentos.forEach(function (subSegmento) {
@@ -32,17 +40,16 @@
                         subSegmentoSelecionado: index > -1 ? true : false
                     });
                 });
+
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
         vm.voltarPagina = function () {
             $ionicHistory.goBack();
-        }
-
-        function activate() {
-            obterUsuarioLogado();
-            obterSegmentos();
-            //obterTipoUsuarioLogado();
         }
 
         function remover(id) {
@@ -57,7 +64,7 @@
             });
         }
 
-        vm.removerSegmentos = function (subSegmento) {
+        vm.removerSubsegmentos = function (subSegmento) {
             var confirmPopup = $ionicPopup.confirm({
                 title: subSegmento.nome,
                 template: 'Deseja remover essa subSegmento?',
@@ -74,14 +81,14 @@
             });
         }
 
-        $ionicModal.fromTemplateUrl('app/subSegmento/remover/subSegmento.remover.html', function (modal) {
-            $scope.modal = modal;
-        }, {
-                scope: $scope,
-                animation: 'slide-in-up'
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
+        // $ionicModal.fromTemplateUrl('app/subSegmento/remover/subSegmento.remover.html', function (modal) {
+        //     $scope.modal = modal;
+        // }, {
+        //         scope: $scope,
+        //         animation: 'slide-in-up'
+        //     }).then(function (modal) {
+        //         $scope.modal = modal;
+        //     });
 
         /*vm.openModal = function (subSegmento) {
             $scope.subSegmento = subSegmento;
@@ -92,37 +99,50 @@
             activate();
         });*/
 
-        function adicionarSegmentoUsuario(usuario) {
-            services.usuarioServices.adicionarCategoria(usuario).success(function (response) {
+        function adicionarSubsegmentoUsuario(usuario) {
+            load.showLoadingSpinner();
+            services.usuarioServices.editar(usuario).success(function (response) {
                 obterUsuarioLogado();
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
-        function removerSegmentosUsuario(usuario) {
-            services.usuarioServices.removerSegmentos(usuario).success(function (response) {
+        function removerSubsegmentoUsuario(usuario) {
+            load.showLoadingSpinner();
+            services.usuarioServices.removerSubsegmento(usuario).success(function (response) {
                 obterUsuarioLogado();
+                load.hideLoading();
+            }).error(function (err, statusCode) {
+                load.hideLoading();
+                load.toggleLoadingWithMessage(err.message);
             });
         }
 
         vm.selecionado = function (subSegmento) {
             var index = subSegmentoSelecionado.indexOf(subSegmento);
             var indexUsuario = vm.usuario.subSegmentos.indexOf(subSegmento._id);
-            vm.usuario.subSegmentoId = subSegmento._id;
+            vm.usuario.subSegmentos = subSegmento._id;
 
             if (index > -1 || indexUsuario > -1) {
-                removerSegmentosUsuario(vm.usuario);
+                removerSubsegmentoUsuario(vm.usuario);
                 subSegmentoSelecionado.splice(index, 1);
                 subSegmento.subSegmentoSelecionado = false;
             } else {
-                adicionarSegmentoUsuario(vm.usuario);
+                adicionarSubsegmentoUsuario(vm.usuario);
                 subSegmentoSelecionado.push(subSegmento);
                 subSegmento.subSegmentoSelecionado = true;
             }
         }
 
+        function activate() {
+            obterUsuarioLogado();
+            obterSubsegmentosPorSegmentoId(segmentoId);
+        }
+
         activate();
     }
-
-    angular.module('cotarApp').controller(controllerId, ['$ionicHistory', '$rootScope', '$location', 'services', '$ionicModal', '$scope', 'autenticacao', '$ionicPopup', 'load', subSegmento]);
 
 })();

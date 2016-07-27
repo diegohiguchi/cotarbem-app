@@ -2,16 +2,17 @@
     <ion-nav-title>
         Meus Dados - Editar
     </ion-nav-title>
-    <ion-nav-buttons side="left">
-        <a class="button icon-left ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
-    </ion-nav-buttons>
+    <ion-nav-buttons>
+		<a class="button ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+	</ion-nav-buttons>
     <ion-content>
         <ion-content>
             <div class="form_padrao">
                 <div class="center header_camera">
-                    <a class="icon_cadastro" style="background-size: cover; background-image: url('{{vm.usuario.urlImagem}}');" ng-href="javascript:"
-                    ng-click="vm.showPopup()">
-                        <i ng-hide="!!vm.usuario.urlImagem" class="fa fa-camera"></i>
+                    <a class="icon_cadastro image-background" style="background-image: url('{{vm.usuario.profileImageURL}}');" ng-href="javascript:"
+                        ng-click="vm.showPopup()">
+                        <img ng-if="!vm.usuario.profileImageURL" class="imagem-adicionar" src="img/placehold_image_add.png"/>
+                        <!--<i ng-if="!vm.imagemURL" class="fa fa-camera"></i>-->
                     </a>
                     <!--<button ng-show="!vm.usuario.imagemSrc" type="button" class="button icon-left ion-android-delete button-clear button-dark"
             ng-click="vm.retirarImagem()" title="Remover">
@@ -27,10 +28,10 @@
             </button>-->
                     <!--<button class="ion-android-delete"> Excluir imagem</button>-->
                     <!--<h2>Criar Conta Gratuita</h2>-->
-                    <img class="logo_header" src="img/icon_header.png" />
+                    <!--<img class="logo_header" src="img/icon_header.png" />-->
                 </div>
 
-                <form name="formEditar" novalidate ng-submit="formEditar.$valid && vm.editarUsuario(vm.usuario)">
+                <form name="formEditarUsuario" novalidate ng-submit="vm.editarUsuario(formEditarUsuario.$valid)">
                     <!--<div class="clear">
                         <select name="tipoUsuario" ng-model="vm.usuario.tipoUsuarioId" ng-options="tipoUsuario._id as tipoUsuario.nome for tipoUsuario in vm.tipoUsuario"
                         required>
@@ -38,40 +39,44 @@
                         </select>
                     </div>-->
                     <div class="clear">
-                        <input type="text" maxlength="50" name="nome" placeholder="Nome *" ng-model="vm.usuario.nome" required/>
+                        <input type="text" maxlength="50" name="firstName" placeholder="Nome *" ng-model="vm.usuario.firstName" required/>
                     </div>
-                    <!--<div class="clear">
-                        <input type="text" name="cnpj" placeholder="CNPJ *" ng-model="vm.usuario.cnpj" ui-br-cnpj-mask required/>
-                    </div>-->
+                    <div class="clear">
+                        <input type="text" maxlength="50" name="lastName" placeholder="Sobrenome *" ng-model="vm.usuario.lastName" required/>
+                    </div>
+                    <div class="clear">
+                        <input type="text" id="numeroDocumento" name="numeroDocumento" class="form-control" placeholder="CPF ou CPNJ *" ng-model="vm.usuario.numeroDocumento"
+                            ui-br-cpfcnpj-mask required>
+                    </div>
                     <div class="clear">
                         <input type="email" name="email" placeholder="E-mail *" ng-model="vm.usuario.email" required/>
+                    </div>
+                    <!--<div class="clear">
+                        <input type="text" name="username" placeholder="E-mail ou Apelido *" ng-model="vm.usuario.username" required/>
                     </div>
                     <div class="clear">
                         <input type="password" name="senha" placeholder="Nova Senha" ng-model="vm.usuario.password" />
                     </div>
                     <div class="clear">
                         <input type="password" data-password-verify="vm.usuario.password" name="confirmaSenha" placeholder="Confirme sua Nova Senha"
-                        ng-model="vm.usuario.confirmPassword" />
-                    </div>
+                            ng-model="vm.usuario.confirmPassword" />
+                    </div>-->
                     <div class="clear">
                         <input type="text" name="telefone" placeholder="Telefone *" ng-model="vm.usuario.telefone" ui-br-phone-number required>
                     </div>
-                    <div class="clear">
+                    <!--<div class="clear">
                         <input type="text" name="cep" ng-blur="vm.buscarCep(vm.usuario.cep)" placeholder="CEP *" my-enter="vm.buscarCep(vm.usuario.cep)"
-                        ng-model="vm.usuario.cep" ui-br-cep-mask required>
-                    </div>
-                    <div class="clear">
-                        <input type="text" name="numero" placeholder="Número *" ng-model="vm.usuario.numero" required>
-                    </div>
+                            ng-model="vm.usuario.cep" ui-br-cep-mask required>
+                    </div>-->
 
-                    <p class="desc_cep" ng-show="!(vm.usuario.endereco | isEmpty)">
+                    <!--<p class="desc_cep" ng-show="!(vm.usuario.endereco | isEmpty)">
                         <strong>Logradouro:</strong> {{vm.usuario.endereco.logradouro}}
                         <br />
                         <strong>Bairro:</strong> {{vm.usuario.endereco.bairro}}
                         <br />
                         <strong>Cidade:</strong> {{vm.usuario.endereco.cidade}} - {{vm.usuario.endereco.estado}}
                         <br />
-                    </p>
+                    </p>-->
 
                     <div class="clear" ng-show="!!vm.mensagem">
                         <span class="alert_error">
@@ -80,14 +85,14 @@
                         </span>
                     </div>
 
-                    <div class="clear" ng-show="formEditar.$submitted">
-                        <div ng-messages="formEditar.$error">
+                    <div class="clear" ng-show="formEditarUsuario.$submitted">
+                        <div ng-messages="formEditarUsuario.$error">
                             <div ng-messages-include="error-list.html"></div>
                         </div>
                     </div>
 
                     <div ng-show="!!vm.usuario.password || !!vm.usuario.confirmPassword">
-                        <span class="alert_error" ng-show="formEditar.confirmaSenha.$error.passwordVerify">
+                        <span class="alert_error" ng-show="formEditarUsuario.confirmaSenha.$error.passwordVerify">
                             <i class="fa fa-exclamation-triangle"></i>
                             As senhas estão diferentes
                         </span>

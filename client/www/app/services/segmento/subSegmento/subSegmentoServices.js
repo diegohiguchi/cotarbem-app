@@ -13,9 +13,14 @@
             return $http.get(connection.baseWeb() + '/api/subSegmentos/' + subsegmentoId);
         }
 
+        function obterSubsegmentosPorSegmentoId(segmentoId) {
+            return $http.get(connection.baseWeb() + '/api/subsegmentos/listarSubsegmentosPorSegmentoId/' + segmentoId);
+        }
+
         var services = {
             obterTodos: obterTodos,
-            obterPorId: obterPorId
+            obterPorId: obterPorId,
+            obterSubsegmentosPorSegmentoId: obterSubsegmentosPorSegmentoId
         };
 
         return services;

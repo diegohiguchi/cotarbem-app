@@ -1,0 +1,36 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="compra.fornecedor as vm">
+    <ion-nav-title>
+        Fornecedor - Detalhes
+    </ion-nav-title>
+    <ion-nav-buttons side="left">
+        <a class="button icon-left ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-content>
+        <div class="center cotacao_view">
+            <div class="head_info">
+                <div class="imagem">
+                    
+                    <span ng-if="vm.usuario.profileImageURL == null || vm.usuario.profileImageURL == ''">
+					   <img src="img/placehold_image.png" />
+                    </span>
+                    <span ng-if="vm.usuario.profileImageURL != null && vm.usuario.profileImageURL != ''">
+                        <a href="javascript:" ng-click="vm.ampliarImagem('zoomIn')">
+					        <img ng-src="{{vm.usuario.profileImageURL}}" class="imagem-leilao"/>
+                        </a>
+                    </span>
+                </div>
+                <p class="title cor_default">{{vm.usuario.displayName}}</p>
+                <span><strong>Logradouro:</strong> {{vm.usuario.enderecamento.endereco}} - nº {{vm.usuario.enderecamento.numero}}</span>
+                <span><strong>Bairro:</strong> {{vm.usuario.enderecamento.bairro}}</span>
+                <span><strong>Cidade:</strong> {{vm.usuario.enderecamento.cidade.nome}} - {{vm.usuario.enderecamento.cidade.estado.sigla}}</span>
+                <span><strong>CPF/CNPJ:</strong> {{vm.usuario.numeroDocumento}}</span>
+                <span><strong>TEL:</strong> {{vm.usuario.telefone}}</span>
+                <span><strong>Email:</strong> {{vm.usuario.email}}</span>
+
+                <hr class="space" />
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

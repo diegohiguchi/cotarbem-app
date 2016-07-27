@@ -1,4 +1,5 @@
-<ion-side-menus enable-menu-with-back-views="true" on-swipe-right="vm.atualizarImagem()" cache-view="false" ng-controller="menu as vm" ng-click="vm.atualizarImagem()">
+<ion-side-menus enable-menu-with-back-views="true" on-swipe-right="vm.atualizarImagem()" cache-view="false" ng-controller="menu as vm"
+    ng-click="vm.atualizarImagem()">
     <ion-side-menu-content>
         <ion-nav-bar class="bar-assertive">
             <ion-nav-back-button>
@@ -20,23 +21,48 @@
         <ion-header-bar class="bar-assertive">
             <h1 class="title">Menu</h1>
         </ion-header-bar>
-        <ion-content >
+        <ion-content>
             <ion-list>
                 <div class="menu_side_bar">
                     <ion-item menu-close class="item-avatar">
-                        <img ng-if="!vm.usuario.urlImagem" class="profile-pic left" src="img/placehold_image.png" />
-                        <img ng-if="!!vm.usuario.urlImagem" class="profile-pic left" ng-src="{{vm.usuario.urlImagem}}" />
-                        <!--<img class="profile-pic left" ng-src="{{vm.usuario.urlImagem}}" />-->
-                        <h2>{{vm.usuario.nome}}</h2>
+                        <img ng-if="!vm.usuario.profileImageURL" class="profile-pic left" src="img/placehold_image.png" />
+                        <img ng-if="!!vm.usuario.profileImageURL" class="profile-pic left" ng-src="{{vm.usuario.profileImageURL}}" />
+                        <!--<img class="profile-pic left" ng-src="{{vm.usuario.profileImageURL}}" />-->
+                        <h2>{{vm.usuario.displayName}}</h2>
                         <p>{{vm.usuario.email}}</p>
                     </ion-item>
                     <!--<ion-item ng-show="vm.usuario.tipoUsuario.nome == 'Cliente'" class="item-icon-left" menu-close ng-href="#/app/solicitacao/cliente">
                     <i class="icon ion-compose"></i>Solicitar Cota&ccedil;&atilde;o
                 </ion-item>-->
-                    <ion-item ng-show="vm.usuario.tipoUsuario.nome != 'Administrador'" class="item-icon-left" menu-close ng-href="#/app/cotacao/dashboard">
+
+                    <!--<ion-item ng-show="vm.usuario.tipoUsuario.nome != 'admin'" class="item-icon-left" menu-close ng-href="#/app/cotacao/dashboard">
                         <i class="fa fa-usd"></i>Cota&ccedil;&otilde;es
+                    </ion-item>-->
+                    <ion-item class="item-icon-left" menu-close ng-href="#/app/home">
+                        <i class="fa fa-home" aria-hidden="true"></i>Home
                     </ion-item>
-                    <ion-item ng-hide="vm.usuario.tipoUsuario.nome == 'Administrador'" class="item-icon-left" menu-close ng-href="#/app/sala">
+                    <ion-item ng-show="vm.usuario.cliente" class="item-icon-left" ng-click="vm.toggleGroup('cliente')">
+                        <i ng-class="{'fa fa-chevron-right': !vm.isGroupShown('cliente'), 'fa fa-chevron-down': vm.isGroupShown('cliente')}" aria-hidden="true"></i>                        Cliente
+                    </ion-item>
+                    <ion-item class="item-icon-left-submenu" ng-show="vm.isGroupShown('cliente')" menu-close ng-href="#/app/cotacao/cliente">
+                        <i class="fa fa-usd"></i>Minhas Cota&ccedil;&otilde;es
+                    </ion-item>
+                    <ion-item class="item-icon-left-submenu" ng-show="vm.isGroupShown('cliente')" menu-close ng-href="#/app/cotacao/cliente/solicitacao/adicionar/">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Nova Cota&ccedil;&atilde;o
+                    </ion-item>
+                    <ion-item ng-show="vm.usuario.fornecedor" class="item-icon-left" ng-click="vm.toggleGroup('fornecedor')">
+                        <i ng-class="{'fa fa-chevron-right': !vm.isGroupShown('fornecedor'), 'fa fa-chevron-down': vm.isGroupShown('fornecedor')}"
+                            aria-hidden="true"></i> Fornecedor
+                    </ion-item>
+                    <ion-item class="item-icon-left-submenu" ng-show="vm.isGroupShown('fornecedor')" menu-close ng-href="#/app/cotacao/fornecedor"
+                        class="item-icon-left">
+                        <i class="fa fa-usd"></i>Minhas Cota&ccedil;&otilde;es
+                    </ion-item>
+                    <ion-item class="item-icon-left-submenu submenu-label" ng-show="vm.isGroupShown('fornecedor')" menu-close ng-href="#/app/segmento"
+                        class="item-icon-left">
+                        <i class="fa fa-plus submenu-label" aria-hidden="true"></i>Segmento/Sub-segmento
+                    </ion-item>
+                    <ion-item ng-hide="vm.usuario.tipoUsuario.nome == 'admin'" class="item-icon-left" menu-close ng-href="#/app/sala">
                         <i class="fa fa-comment"></i>Chat
                     </ion-item>
                     <!--<ion-item ng-show="vm.usuario.tipoUsuario.nome == 'Fornecedor'" menu-close ng-href="#/app/sala">
@@ -45,10 +71,10 @@
                     <!--<ion-item ng-show="vm.usuario.tipoUsuario.nome == 'Fornecedor'" menu-close ng-href="#/app/categoria" class="item-icon-left">
                     <i class="icon ion-android-add"></i>Adicionar Categoria
                 </ion-item>-->
-                    <ion-item ng-show="vm.usuario.tipoUsuario.nome == 'Administrador'" menu-close ng-href="#/app/categoria" class="item-icon-left">
+                    <ion-item ng-show="vm.usuario.tipoUsuario.nome == 'admin'" menu-close ng-href="#/app/categoria" class="item-icon-left">
                         <i class="icon ion-ios-list-outline"></i>Categorias
                     </ion-item>
-                    <ion-item ng-show="vm.usuario.tipoUsuario.nome == 'Administrador'" class="item-icon-left" menu-close ng-href="#/app/usuario">
+                    <ion-item ng-show="vm.usuario.tipoUsuario.nome == 'admin'" class="item-icon-left" menu-close ng-href="#/app/usuario">
                         <i class="fa fa-user"></i>Usu&aacute;rios
                     </ion-item>
                     <ion-item menu-close ng-href="#/app/usuario/detalhar" class="item-icon-left">

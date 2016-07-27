@@ -14,7 +14,8 @@
 <div class="form_padrao">
     <form name="formLogin" novalidate="" ng-submit="formLogin.$valid && vm.login(vm.usuario)">
         <div class="clear">
-            <input class="email" name="email" type="email" placeholder="Endereço de E-mail *" ng-model="vm.usuario.email" required/>
+            <!--<input class="email" name="email" type="email" placeholder="Endereço de E-mail *" ng-model="vm.usuario.email" required/>-->
+            <input class="email" name="username" type="text" placeholder="E-mail ou Apelido *" ng-model="vm.usuario.username" required/>
         </div>
         <div class="clear">
             <input class="senha" minlength="3" name="senha" type="password" placeholder="Senha *" ng-model="vm.usuario.password" required/>

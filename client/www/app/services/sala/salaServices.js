@@ -17,38 +17,39 @@
             return $http.get(connection.base() + '/sala/obterPorSolicitacaoId/' + id);
         }
 
-        function obterListaSalasPorSolicitacaoId(solicitacoes) {
-            return $http.post(connection.base() + '/sala/obterListaSalasPorSolicitacaoId', solicitacoes);
+        function obterSalasPorSolicitacao(solicitacoes) {
+            return $http.post(connection.baseWeb() + '/api/salas/obterSalasPorSolicitacao', solicitacoes);
         }
 
         function adicionar(sala) {
-            return $http.post(connection.base() + '/sala/adicionar', sala);
+            //return $http.post(connection.base() + '/sala/adicionar', sala);
+            return $http.post(connection.baseWeb() + '/api/salas', sala);
         }
 
         function remover(id) {
             return $http.post(connection.base() + '/sala/remover/' + id);
         }
 
-        function obterPorUsuarioId(id) {
-            return $http.get(connection.base() + '/sala/obterPorUsuarioId/' + id);
+        function editar(sala) {
+            return $http.post(connection.baseWeb() + '/api/salas/editar', sala);
         }
 
-        function editar(sala) {
-            return $http.post(connection.base() + '/sala/editar', sala);
+        function obterSalasPorUsuarioId(id) {
+            return $http.get(connection.baseWeb() + '/api/salas/obterSalasPorUsuarioId/' + id);
         }
 
         function obterSalaPorSolicitacaoEProduto(sala) {
-            return $http.post(connection.base() + '/sala/obterSalaPorSolicitacaoEProduto', sala);
+            return $http.post(connection.baseWeb() + '/api/salas/obterSalaPorSolicitacaoEProduto', sala);
         }
 
         var services = {
             obterTodas: obterTodas,
             obterPorId: obterPorId,
             obterPorSolicitacaoId: obterPorSolicitacaoId,
-            obterListaSalasPorSolicitacaoId: obterListaSalasPorSolicitacaoId,
+            obterSalasPorSolicitacao: obterSalasPorSolicitacao,
             adicionar: adicionar,
             remover: remover,
-            obterPorUsuarioId: obterPorUsuarioId,
+            obterSalasPorUsuarioId: obterSalasPorUsuarioId,
             editar: editar,
             obterSalaPorSolicitacaoEProduto: obterSalaPorSolicitacaoEProduto
         };

@@ -1,6 +1,93 @@
-<ion-view hide-nav-bar="false" cache-view="false" hide-back-button="true" ng-controller="home as vm">
+<ion-view view-title="COTAR BEM" cache-view="false" hide-back-button="true" ng-controller="home as vm">
+    <ion-nav-buttons side="right">
+        <!--<a class="" ng-href="#/app/cotacao/notificacao/fornecedor">
+            <span class="notify">
+                <i class="fa fa-bell" aria-hidden="true"></i>
+				<span class="number">{{vm.notificacao.length}}</span>
+            </span>
+        </a>-->
+    </ion-nav-buttons>
+    <ion-content scroll="false">
+        <hr class="space">
+        <div class="center">
+            <ul class="list_category">
+                <li ng-show="!!vm.usuario.cliente">
+                    <a ng-href="#/app/cotacao/cliente">
+                        <span class="category">Cliente</span>
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        <div ng-if="vm.solicitacaoCliente">
+                            <div ng-if="!!vm.solicitacaoCliente.ativo">
+                                <span class="time" my-current-time="vm.solicitacaoCliente"></span>
+                                <span class="progessbar">
+							             <div id="progressBar" class="active"></div> &nbsp
+                                    </span>
+                            </div>
+                            <div ng-if="!vm.solicitacaoCliente.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li ng-show="!!vm.usuario.fornecedor">
+                    <a ng-href="#/app/cotacao/fornecedor">
+                        <span class="category">Fornecedor</span>
+                        <i class="fa fa-truck" aria-hidden="true"></i>
+                        <div ng-if="vm.solicitacaoFornecedor">
+                            <div ng-if="!!vm.solicitacaoFornecedor.ativo">
+                                <span class="time" my-current-time="vm.solicitacaoFornecedor"></span>
+                                <span class="progessbar">
+							         <div id="progressBar" class="active"></div> &nbsp
+                                </span>
+                            </div>
+                            <div ng-if="!vm.solicitacaoFornecedor.ativo">
+                                <span class="time encerrado">encerrado</span>
+                                <span class="progessbar">&nbsp</span>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/app/compra">
+                        <span class="category">Compras</span>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <!--<li>
+                    <a href="#/app/compras">
+                        <span class="category">Solicitações de Compra</span>
+                        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="#/app/notificacao">
+                        <span class="category">Notificações</span>
+                        <div class="badge">
+                            <span class="number">{{vm.notificacao.length}}</span>
+                        </div>
+                        <i class="fa fa-bell" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a ng-href="#/app/sala">
+                        <span class="category">Chat</span>
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a ng-href="#/app/usuario/detalhar">
+                        <span class="category">Minha Conta</span>
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>
+
+<!--<ion-view hide-nav-bar="false" cache-view="false" hide-back-button="true" ng-controller="home as vm">
     <ion-content scroll="false">
         <img src="img/SPLASH.jpg" class="home"
                          style="width: 100%; height: 100%;margin:auto;display:block">
     </ion-content>
-</ion-view>
+</ion-view>-->

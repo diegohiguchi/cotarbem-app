@@ -6,38 +6,36 @@
     function produtoServices($http, connection) {
 
         function obterTodos() {
-            return $http.get(connection.base() + '/produto/obterTodos');
+            // return $http.get(connection.base() + '/produto/obterTodos');
+            return $http.get(connection.baseWeb() + '/api/produtos');
         }
 
         function obterPorId(id) {
-            return $http.get(connection.base() + '/produto/obterPorId/' + id);
+            // return $http.get(connection.base() + '/produto/obterPorId/' + id);
+            return $http.get(connection.baseWeb() + '/api/produtos/' + id);
         }
 
         function obterListaProdutosPorId(produtos) {
             return $http.post(connection.base() + '/produto/obterListaProdutosPorId', produtos);
         }
 
-        function adicionar(produto){
-            return $http.post(connection.base() + '/produto/adicionar', produto);
+        function adicionarLista(produto){
+            // return $http.post(connection.base() + '/produto/adicionar', produto);
+            return $http.post(connection.baseWeb() + '/api/produtos/adicionarLista', produto);
         }
 
         function editar(produto){
-            return $http.post(connection.base() + '/produto/editar', produto);
+            return $http.post(connection.baseWeb() + '/api/produtos/editar', produto);
         }
 
         function remover(id){
-            return $http.post(connection.base() + '/produto/remover/'+ id);
+            return $http.post(connection.baseWeb() + '/api/produtos/remover/'+ id);
         }
         
-        function adicionarLista(produtos){
-            return $http.post(connection.base() + '/produto/adicionarLista', JSON.stringify(produtos));
-        }
-
         var services = {
             obterTodos: obterTodos,
             obterPorId: obterPorId,
             obterListaProdutosPorId: obterListaProdutosPorId,
-            adicionar: adicionar,
             editar: editar,
             remover: remover,
             adicionarLista: adicionarLista

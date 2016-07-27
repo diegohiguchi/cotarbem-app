@@ -1,0 +1,237 @@
+<ion-view cache-view="false" hide-back-button="true" ng-controller="cotacao.fornecedor.produto.valor as vm">
+    <ion-nav-title>
+        {{vm.solicitacao.subSegmento.nome}} - Cotação
+    </ion-nav-title>
+    <ion-nav-buttons>
+        <a class="button ion-chevron-left button-clear" ng-href="javascript:" ng-click="vm.voltarPagina()"></a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <a href="javascript:void(0)" ng-click="vm.popover.show($event)">
+            <i class="fa fa-ellipsis-v icon-ellipsis" aria-hidden="true"></i>
+        </a>
+    </ion-nav-buttons>
+    <!--<ion-nav-buttons side="right">
+        <a class="" ng-href="javascript:" ng-click="vm.abrirModalImpossivelCotar()">
+            <span class="notify">
+                <i class="fa fa-question-circle"></i>
+            </span>
+        </a>
+    </ion-nav-buttons>-->
+    <ion-content>
+        <div class="center cotacao_view">
+            <div class="head_info">
+                <!--<div class="imagem" div-imagem="vm">
+                </div>-->
+                <div class="imagem">
+                    <span ng-if="vm.produto.imagemURL == null">
+					   <img src="img/placehold_image.png" />
+                    </span>
+                    <span ng-if="vm.produto.imagemURL != null">
+                        <a href="javascript:" ng-click="vm.ampliarImagem('zoomIn')">
+					        <img data-ng-src="{{vm.produto.imagemURL}}" class="imagem-leilao"/>
+                        </a>
+                    </span>
+                </div>
+                <p class="title cor_default">{{vm.produto.nome}}</p>
+                <span ng-if="vm.produto.codigo"><strong>Código de barras:</strong> {{vm.produto.codigo}}
+                <span><strong>Unidade de medida:</strong> {{vm.produto.unidadeMedida}} - 
+                <strong>Quantidade:</strong> {{vm.produto.quantidade}}</span>
+                <span><strong>Data de entrega:</strong> {{vm.produto.dataEntrega | date:"MM/dd/yyyy"}}</span>
+
+                <!--<hr class="space" />-->
+                <div ng-show="vm.produto.observacao">
+                    <span ng-show="!vm.mostraDescricao"><strong>Observação:</strong> {{vm.produto.observacao | cut:true:100:' ...'}} 
+                        <a href="javascript:" ng-show="vm.produto.descricao.length > 100" ng-click="vm.mostraDescricao = !vm.mostraDescricao">+ ver mais</a>
+                    </span>
+                    <span ng-show="!!vm.mostraDescricao">{{vm.produto.observacao}} 
+                        <a href="javascript:" ng-click="vm.mostraDescricao = !vm.mostraDescricao">- ver menos</a>
+                    </span>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <!--<a href="#" class="impossivel_cotar">Impossível Cotar?</a>-->
+
+        <p class="tempo_cotacao">TEMPO PARA COTAÇÃO
+            <span class="temp_cotacao" ng-if="!!vm.solicitacao.ativo" my-current-time="vm.solicitacao"></span>
+            <span class="temp_cotacao" ng-if="!vm.solicitacao.ativo">encerrado</span>
+        </p>
+
+        <!--<ul class="list_leilao" ng-show="!!vm.cotacao">
+            <li ng-repeat="lance in vm.primeirosLances" class="{{$index | posicao}}">
+                <span class="left"><i class="fa fa-trophy"></i></span>
+                <span class="left" ng-show="!lance.posicao">{{$index + 1}}º </span>
+                <span class="left" ng-show="!!lance.posicao">{{lance.posicao + 1}}º </span>
+                <span class="left" lance-usuario-nome="lance"></span>
+                <span class="right">{{lance.valor | currency}}</span>
+            </li>
+            <li class="quarto" ng-show="!!vm.lanceUsuarioLogado">
+                <span class="left"><i class="fa fa-trophy"></i></span>
+                <span class="left">{{vm.lanceUsuarioLogado.posicao}}º - SEU LANCE</span>
+                <span class="right">{{vm.lanceUsuarioLogado.valor | currency}}</span>
+            </li>
+        </ul>-->
+
+        <form class="form_lance" name="vm.form.cotacaoProduto" novalidate ng-submit="vm.salvar(vm.form.cotacaoProduto.$valid)">
+            <div class="clear disponibilidade">
+                <label for="disponivel" class="checkbox">
+                    <div class="label-disponibilidade">
+                        <input ng-disabled="!vm.solicitacao.ativo" id="disponivel" name="disponivel" type="checkbox" ng-model="vm.produto.cotacao.disponivel" required>
+                    </div>
+                </label>
+                <span class="categoria-nome">Produto Disponível? *</span>
+            </div>
+            <div class="form_padrao center">
+                <div class="clear-valor">
+                    <input type="text" ng-disabled="!vm.solicitacao.ativo" name="valor" ng-model="vm.produto.cotacao.valor" placeholder="Valor: R$ 0,00 *"
+                        ui-money-mask="2" maxlength="11" required/>
+                    <span class="valor">Total: {{vm.produto.cotacao.valor * vm.produto.quantidade | currency}}</span>
+                    <button type="button" class="btn_padrao_duvida" ng-click="vm.showAlert()"><i class="fa fa-question" aria-hidden="true"></i></button>
+                </div>
+                <div class="clear">
+                    <textarea class="textarea-cotacao" name="observacao" rows="2" ng-disabled="!vm.solicitacao.ativo" ng-model="vm.produto.cotacao.observacao"
+                        placeholder="Observação"></textarea>
+                </div>
+                <div class="clear">
+                    <input ng-class="'btn_padrao'" type="submit" ng-disabled="!vm.solicitacao.ativo" value="Salvar" />
+                </div>
+            </div>
+        </form>
+    </ion-content>
+
+    <!--<ion-footer-bar>-->
+    <!--<form class="form_lance" name="formCotacao" novalidate ng-submit="vm.salvar(vm.produto)">
+            <div class="form_padrao center">
+                <div class="clear">
+                    <input ng-disabled="!vm.solicitacao.ativo" type="checkbox" ng-model="vm.produto.disponivel">
+                </div>
+                <div class="clear">
+                    <input type="text" ng-disabled="!vm.solicitacao.ativo" name="valor" ng-model="vm.produto.valor" placeholder="Valor: R$ 0,00"
+                        ui-money-mask="2" maxlength="11" required/>
+                </div>
+                <div class="clear">
+                    <textarea class="form-control" rows="6" ng-disabled="!vm.solicitacao.ativo" ng-model="vm.produto.observacao" placeholder="Observação"></textarea>
+                </div>
+
+                <div class="form_padrao center">
+                    <div class="clear">
+                        <button type="submit" ng-disabled="!vm.solicitacao.ativo" ng-class="!vm.solicitacao.ativo ? 'btn_enviar_disabled' : 'btn_enviar'">
+                            Salvar
+                        </button>
+                    </div>
+                </div>
+            </div>-->
+
+    <!--<input ng-disabled="!vm.solicitacao.ativo" type="checkbox" ng-model="vm.produto.disponivel">
+            <input type="text" ng-disabled="!vm.solicitacao.ativo" name="valor" ng-model="vm.produto.valor" placeholder="Valor: R$ 0,00"
+                ui-money-mask="2" maxlength="11" required/>
+
+            <textarea class="form-control" rows="6" ng-disabled="!vm.solicitacao.ativo" ng-model="vm.produto.observacao" placeholder="Observação"></textarea>
+
+            <button type="submit" ng-disabled="!vm.ativo" ng-class="!vm.ativo ? 'btn_enviar_disabled' : 'btn_enviar'">
+                Salvar
+            </button>-->
+    <!--<script id="error-list.html" type="text/ng-template">
+                <div ng-message="required">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe o valor do lance
+                    </span>
+                </div>
+                <div ng-message when="valor">
+                    <i class="fa fa-exclamation-triangle"></i> Valor inválido
+                    </span>
+                </div>
+            </script>-->
+    <!--</form>-->
+
+    <!--<form class="form_lance" name="formCotacao" novalidate ng-submit="vm.enviarLance(vm.valor)">
+            <input type="text" ng-disabled="vm.quantidadeLances.length >= 3 || !vm.ativo" name="valor" ng-model="vm.valor" placeholder="Lance: R$ 0,00" ui-money-mask="2" maxlength="11" required/>
+            <button type="submit" ng-disabled="vm.quantidadeLances.length >= 3 || !vm.ativo" ng-class="!vm.ativo || vm.quantidadeLances.length >= 3 ? 'btn_enviar_disabled' : 'btn_enviar'">
+                <i class="fa fa-gavel"></i>
+            </button>
+            <script id="error-list.html" type="text/ng-template">
+                <div ng-message="required">
+                    <span class="alert_error">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    Informe o valor do lance
+                    </span>
+                </div>
+                <div ng-message when="valor">
+                    <i class="fa fa-exclamation-triangle"></i> Valor inválido
+                    </span>
+                </div>
+            </script>
+        </form>-->
+    <!--</ion-footer-bar>-->
+    <!--<script id="impossivelCotar.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-content>
+                <div class="header">
+                    <h1>Impossível cotar?</h1>
+                    <a href="#" class="" ng-click="vm.fecharModalImpossivelCotar()">
+                        <span class="notify">
+				        <i class="fa fa-times"></i>
+                    </span>
+                    </a>
+                </div>
+
+                <form novalidate name="formImpossivelCotar" ng-submit="formImpossivelCotar.$valid && vm.enviarMotivoImpossivelCotar(vm.descricao, formImpossivelCotar)">
+                    <div class="form_padrao">
+                        <div class="clear">
+                            <textarea name="descricao" required maxlength="300" ng-model="vm.descricao" placeholder="Descrição detalhada *"></textarea>
+                        </div>
+                        <div class="clear" ng-show="formImpossivelCotar.$submitted">
+                            <div ng-messages="formImpossivelCotar.$error">
+                                <div ng-messages-include="error-list.html"></div>
+                            </div>
+
+                            <hr class="space">
+
+                        </div>
+
+                        <div class="clear">
+                            <input class="btn_padrao" type="submit" value="Enviar" />
+                        </div>
+                    </div>
+
+                    <script id="error-list.html" type="text/ng-template">
+                        <div ng-message="required">
+                            <span class="alert_error">
+                            <i class="fa fa-exclamation-triangle"></i> Informe o campo descrição
+                            </span>
+                        </div>
+                    </script>
+    </form>
+    </ion-content>
+    </ion-modal-view>
+    </script>-->
+
+    <script id="imagem.html" type="text/ng-template">
+
+        <div class="modal image-modal transparent">
+            <a href="javascript:" ng-click="vm.fecharImagem()"  class="icone-fechar-imagem"><i class="fa fa-times"></i></a>
+
+            <img ng-src="{{vm.produto.urlImagem}}" class="fullscreen-image"/>
+        </div>
+    </script>
+
+    <script id="templates/popover.html" type="text/ng-template">
+        <ion-popover-view class="popover">
+            <ion-content>
+                <div class="list">
+                    <!--<a class="item" href="javscript:" ng-click="vm.denunciar(vm.sala)">
+                        Impossível Cotar?
+                    </a>-->
+                    <a class="item" href="javascript:" ng-click="vm.cotacoesProdutoDetalhar()">
+                        Cotações do produto
+                    </a>
+                </div>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+
+</ion-view>
