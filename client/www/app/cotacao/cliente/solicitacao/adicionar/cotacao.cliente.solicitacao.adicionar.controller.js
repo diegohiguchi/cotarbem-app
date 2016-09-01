@@ -61,11 +61,11 @@
             $cordovaBarcodeScanner.scan().then(function (imageData) {
                 vm.codigoBarras = imageData.text;
 
-                console.log("Text -> " + imageData.text);
-                console.log("Barcode Format -> " + imageData.format);
-                console.log("Cancelled -> " + imageData.cancelled);
+                // console.log("Text -> " + imageData.text);
+                // console.log("Barcode Format -> " + imageData.format);
+                // console.log("Cancelled -> " + imageData.cancelled);
             }, function (error) {
-                console.log("An error happened -> " + error);
+                //console.log("An error happened -> " + error);
             });
         };
 

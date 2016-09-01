@@ -23,10 +23,10 @@
                 <!--<div class="imagem" div-imagem="vm">
                 </div>-->
                 <div class="imagem">
-                    <span ng-if="vm.produto.imagemURL == null">
+                    <span ng-if="vm.produto.imagemURL == null || vm.produto.imagemURL == ''">
 					   <img src="img/placehold_image.png" />
                     </span>
-                    <span ng-if="vm.produto.imagemURL != null">
+                    <span ng-if="vm.produto.imagemURL != null && vm.produto.imagemURL != ''">
                         <a href="javascript:" ng-click="vm.ampliarImagem('zoomIn')">
 					        <img data-ng-src="{{vm.produto.imagemURL}}" class="imagem-leilao"/>
                         </a>

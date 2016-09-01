@@ -28,7 +28,7 @@
     "tag": "0.2.2",
     "commit": "35edb7dc4b031273d7d97f413e895b7ea8cb4fb4"
   },
-  "_source": "git://github.com/the-darc/string-mask.git",
+  "_source": "https://github.com/the-darc/string-mask.git",
   "_target": "~0.2.0",
   "_originalSource": "string-mask"
 }

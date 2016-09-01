@@ -2,27 +2,36 @@
     'use strict';
     var controllerId = 'home';
 
-    angular.module('cotarApp').controller(controllerId, ['socket', 'connection', 'load', '$rootScope', '$location', 'autenticacao', 'services', '$cordovaBadge', home]);
+    angular.module('cotarApp').controller(controllerId, ['socket', '$scope', 'connection', 'load', '$rootScope', '$location', 'autenticacao',
+        'services', '$cordovaBadge', home]);
 
-    function home(socket, connection, load, $rootScope, $location, autenticacao, services, $cordovaBadge) {
+    function home(socket, $scope, connection, load, $rootScope, $location, autenticacao, services, $cordovaBadge) {
         socket.connect();
         var vm = this;
 
         if (!$rootScope.isAuthenticated)
             $location.path('/app/login');
 
-        function obterQuantidadeNotificacoesIcone(quantidade) {
-            $cordovaBadge.promptForPermission();
-            $cordovaBadge.hasPermission().then(function (result) {
-                $cordovaBadge.set(quantidade);
-            }, function (error) {
-                console.log(error);
-            });
+        // function obterQuantidadeNotificacoesIcone(quantidade) {
+        //     $cordovaBadge.promptForPermission();
+        //     $cordovaBadge.hasPermission().then(function (result) {
+        //         $cordovaBadge.set(quantidade);
+        //     }, function (error) {
+        //         console.log(error);
+        //     });
+        // }
+
+        function mostrarPassoAPasso() {
+            if(localStorage.passoAPasso == undefined){
+                vm.passoDescricao = "Bem vindo ao Cotar Bem! Cliente crie aqui a sua cotação.";
+                vm.passoAtivo = true;
+                localStorage.passoAPasso = false;
+            }
         }
 
         function adicionarNotificacao(data) {
             vm.notificacao.push(data);
-            obterQuantidadeNotificacoesIcone(vm.notificacao.length);
+            //obterQuantidadeNotificacoesIcone(vm.notificacao.length);
         }
 
         socket.on('envia-solicitacao', function (data) {
@@ -55,6 +64,7 @@
             vm.usuario.profileImageURL = connection.baseWeb() + '/' + vm.usuario.profileImageURL;
             vm.usuario.cliente = _.contains(vm.usuario.roles, 'cliente');
             vm.usuario.fornecedor = _.contains(vm.usuario.roles, 'fornecedor');
+
         }
 
         function obterNotificacoes(usuarioId) {
@@ -62,7 +72,7 @@
             services.notificacaoServices.obterNotificacoesEmAbertoPorUsuarioId(usuarioId).success(function (response) {
                 vm.notificacao = response;
 
-                obterQuantidadeNotificacoesIcone(vm.notificacao.length);
+                //obterQuantidadeNotificacoesIcone(vm.notificacao.length);
             }).error(function (err, statusCode) {
                 load.hideLoading();
                 load.toggleLoadingWithMessage(err.message);
@@ -97,6 +107,7 @@
 
         function activate() {
             obterUsuario();
+            mostrarPassoAPasso();
             obterNotificacoes(vm.usuario._id);
             vincularSocket();
             obterSolicitacao(vm.usuario);

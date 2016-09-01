@@ -28,8 +28,7 @@
     "tag": "v2.0.0",
     "commit": "5073128a9d9d4fc89b8541d77199cd57cf55c727"
   },
-  "_source": "git://github.com/AlexDisler/ionic-zoom-view.git",
+  "_source": "https://github.com/AlexDisler/ionic-zoom-view.git",
   "_target": "~2.0.0",
-  "_originalSource": "ionic-zoom-view",
-  "_direct": true
+  "_originalSource": "ionic-zoom-view"
 }

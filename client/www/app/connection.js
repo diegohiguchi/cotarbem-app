@@ -7,7 +7,8 @@
         var baseDesenvolvimentoApp = 'http://localhost:3000';
         var baseProducaoApp = 'http://cotar-bem.herokuapp.com';
         var baseDesenvolvimentoWeb = 'http://localhost:8080';
-        var baseProducaoWeb = 'http://cotarbem.herokuapp.com';
+        var baseProducaoWeb = 'http://www.cotarbem.com.br';
+        var baseHerokuApp = 'http://cotarbem.herokuapp.com';
         var baseNgrok = 'http://008d9a58.ngrok.io/';
 
         function base() {
@@ -15,7 +16,7 @@
         }
 
         function baseWeb() {
-            return baseProducaoWeb;
+            return baseHerokuApp;
         }
 
         var connections = {

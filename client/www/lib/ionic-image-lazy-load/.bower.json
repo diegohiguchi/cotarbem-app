@@ -24,14 +24,13 @@
     "test",
     "tests"
   ],
-  "_release": "1beb93dc7e",
+  "_release": "3cf1f1ae84",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "1beb93dc7e38bf71df388c6d2af2e9baf5c0154d"
+    "commit": "3cf1f1ae843c954baa9e01fb80423426fecdc3e2"
   },
-  "_source": "git://github.com/paveisistemas/ionic-image-lazy-load.git",
+  "_source": "https://github.com/paveisistemas/ionic-image-lazy-load.git",
   "_target": "*",
-  "_originalSource": "ion-image-lazy-load",
-  "_direct": true
+  "_originalSource": "ion-image-lazy-load"
 }

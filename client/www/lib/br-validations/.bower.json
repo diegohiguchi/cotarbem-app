@@ -36,7 +36,7 @@
     "tag": "0.2.4",
     "commit": "c68eb512de014194856c928cfb3f51839c73783b"
   },
-  "_source": "git://github.com/the-darc/br-validations.git",
+  "_source": "https://github.com/the-darc/br-validations.git",
   "_target": "~0.2.4",
   "_originalSource": "br-validations"
 }

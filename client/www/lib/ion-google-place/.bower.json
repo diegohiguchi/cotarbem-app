@@ -28,8 +28,7 @@
     "tag": "v0.0.1",
     "commit": "03fd406d58b8600920608b2948e0b27479e12c8a"
   },
-  "_source": "git://github.com/israelidanny/ion-google-place.git",
+  "_source": "https://github.com/israelidanny/ion-google-place.git",
   "_target": "~0.0.1",
-  "_originalSource": "ion-google-place",
-  "_direct": true
+  "_originalSource": "ion-google-place"
 }

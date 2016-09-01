@@ -9,24 +9,24 @@
             return $http.get(connection.base() + '/usuario/obterTodos');
         }
 
-        function adicionar(usuario){
+        function adicionar(usuario) {
             return $http.post(connection.base() + '/usuario/adicionar', usuario);
         }
 
-        function editar(usuario){
+        function editar(usuario) {
             // return $http.post(connection.base() + '/usuario/editar', usuario);
             return $http.post(connection.baseWeb() + '/api/users/editar', usuario);
         }
 
-        function remover(id){
-            return $http.post(connection.base() + '/usuario/remover/'+ id);
+        function remover(id) {
+            return $http.post(connection.base() + '/usuario/remover/' + id);
         }
 
-        function removerSubsegmento(usuario){
+        function removerSubsegmento(usuario) {
             return $http.post(connection.baseWeb() + '/api/users/removerSubsegmento', usuario);
         }
 
-        function obterListaUsuariosPorId(usuarios){
+        function obterListaUsuariosPorId(usuarios) {
             return $http.post(connection.base() + '/usuario/obterListaUsuariosPorId', usuarios);
         }
 
@@ -39,6 +39,10 @@
             return $http.get(connection.base() + '/usuario/obterFornecedoresPorCategoriaId/' + id);
         }
 
+        function editarPassoAPasso(usuario) {
+            return $http.post(connection.baseWeb() + '/api/users/editarPassoAPasso', usuario);
+        }
+
         var services = {
             obterTodos: obterTodos,
             adicionar: adicionar,
@@ -47,7 +51,8 @@
             removerSubsegmento: removerSubsegmento,
             obterListaUsuariosPorId: obterListaUsuariosPorId,
             obterPorId: obterPorId,
-            obterFornecedoresPorCategoriaId: obterFornecedoresPorCategoriaId
+            obterFornecedoresPorCategoriaId: obterFornecedoresPorCategoriaId,
+            editarPassoAPasso: editarPassoAPasso
         };
 
         return services;

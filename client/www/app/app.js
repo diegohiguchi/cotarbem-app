@@ -8,7 +8,7 @@
 //angular.module('cotarApp', ['ionic', 'btford.socket-io', 'ngMessages', 'angularMoment', 'naif.base64'])
 //angular.module('cotarApp', ['ionic', 'ngMessages', 'angularMoment', 'flow', 'fiestah.money', 'ngCordova', 'ionic.service.core', 'ionic.service.push'])
 angular.module('cotarApp', ['ionic', 'btford.socket-io', 'ngMessages', 'angularMoment', 'flow', 'ngCordova', 'ionicLazyLoad',
-    'firebase', 'ionic.service.core', 'ionic.service.push', 'ui.utils.masks', 'ionic.rating', 'ionic-zoom-view'])
+    'firebase', 'ionic.service.core', 'ionic.service.push', 'ui.utils.masks', 'ionic.rating', 'ionic-zoom-view', 'ng-walkthrough'])
 
     .config(['$ionicAppProvider', function($ionicAppProvider) {
         // Identify app

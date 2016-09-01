@@ -662,7 +662,8 @@ img.profile-pic.left {
 
 .slider-pager{
     height:30px;
-    top:70%;
+    top:75%;
+    position: fixed !important;
 }
 
 .slider-pager .slider-pager-page {
@@ -1140,6 +1141,7 @@ p.italic {
     margin: 0 -2%;
     margin-top: -5px;
     position: absolute;
+    box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
 }
 .bar .buttons-left span {
     margin-right: 0px;
@@ -1197,4 +1199,16 @@ p.italic {
 }
 .form-camera{
     margin: 0 0px 5px !important;
+}
+.botao-cadastro{
+    font-size: 13px
+}
+
+.button.button-positive{
+   border-color: #12a3b6;
+   background-color: #12a3b6;
+}
+.button.button-positive.activated{
+   border-color: #12a3b6;
+   background-color: #12a3b6;
 }

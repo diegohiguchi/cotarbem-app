@@ -58,8 +58,7 @@
     "tag": "v1.0.14",
     "commit": "8e6de3d748a4b6ab394915e9c5e31ebc8f13aae3"
   },
-  "_source": "git://github.com/gdi2290/angular-websocket.git",
+  "_source": "https://github.com/gdi2290/angular-websocket.git",
   "_target": "~1.0.14",
-  "_originalSource": "angular-websocket",
-  "_direct": true
+  "_originalSource": "angular-websocket"
 }
